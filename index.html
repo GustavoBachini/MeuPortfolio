@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Luiz Gustavo — Software Developer</title>
-  <link rel="icon" type="image/png" href="dev icon.png" />
+  <link rel="icon" type="image/png" href="Images/dev icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -740,31 +740,32 @@
     }
     .exp-chip { font-size: 0.7rem; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 5px; background: var(--bg3); border: 1px solid var(--border); color: var(--text2); }
 
-    /* ── Certificates Carousel ──────────────────────────────────── */
+    /* ── Certificates Infinite Slider ───────────────────────────── */
     .cert-header {
       display: flex; justify-content: space-between; align-items: flex-end;
       flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem;
     }
     .cert-header-text { max-width: 560px; }
     .cert-header-sub  { font-size: 0.9rem; color: var(--muted); margin-top: 0.4rem; }
-    .cert-nav { display: flex; gap: 0.5rem; flex-shrink: 0; }
-    .cert-nav-btn {
-      width: 38px; height: 38px; border-radius: 50%;
-      border: 1px solid var(--border); background: var(--bg);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; color: var(--text2);
-      transition: background 0.15s, border-color 0.15s, color 0.15s;
-    }
-    .cert-nav-btn:hover:not(:disabled) { background: var(--bg3); color: var(--text); }
-    .cert-nav-btn:disabled { opacity: 0.3; cursor: default; }
-    .cert-nav-btn svg { width: 16px; height: 16px; }
 
-    /* scroll track */
-    .cert-track-wrap { overflow: hidden; }
+    @keyframes cert-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .cert-track-wrap {
+      overflow: hidden;
+      /* fade edges */
+      mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    }
     .cert-track {
       display: flex; gap: 1.25rem;
+      width: max-content;
+      animation: cert-scroll 30s linear infinite;
       will-change: transform;
     }
+    .cert-track-wrap:hover .cert-track { animation-play-state: paused; }
 
     /* each carousel card */
     .cert-slide {
@@ -772,56 +773,20 @@
       height: 340px;
       border-radius: 16px;
       overflow: hidden;
-      position: relative;
-      cursor: pointer;
+      display: block;
+      text-decoration: none;
       border: 1px solid var(--border);
       background: var(--bg3);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
+    .cert-slide:hover { transform: scale(1.03); box-shadow: 0 8px 28px rgba(0,0,0,0.12); }
     @media (max-width: 600px) { .cert-slide { flex: 0 0 260px; height: 280px; } }
 
-    /* image fills card */
     .cert-slide-img {
       width: 100%; height: 100%;
       object-fit: cover; object-position: center top;
       display: block;
-      transition: height 0.45s ease;
     }
-    .cert-slide:hover .cert-slide-img { height: 50%; }
-
-    /* info panel slides up from bottom */
-    .cert-slide-info {
-      position: absolute; bottom: 0; left: 0; width: 100%;
-      height: 0; overflow: hidden;
-      background: var(--bg);
-      transition: height 0.45s ease, opacity 0.35s ease;
-      opacity: 0;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 0 1.25rem;
-    }
-    .cert-slide:hover .cert-slide-info { height: 50%; opacity: 1; }
-
-    .cert-slide-title {
-      font-size: 0.95rem; font-weight: 700; color: var(--text);
-      margin-bottom: 0.3rem; line-height: 1.3;
-    }
-    .cert-slide-sub {
-      font-size: 0.78rem; color: var(--muted);
-      display: -webkit-box; -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical; overflow: hidden;
-      line-height: 1.5;
-    }
-    /* arrow button bottom-right */
-    .cert-slide-arrow {
-      position: absolute; bottom: 0.75rem; right: 0.75rem;
-      width: 32px; height: 32px; border-radius: 50%;
-      border: 1px solid var(--border); background: var(--bg);
-      display: flex; align-items: center; justify-content: center;
-      text-decoration: none; color: var(--text2);
-      opacity: 0; transition: opacity 0.35s ease, transform 0.2s ease;
-    }
-    .cert-slide:hover .cert-slide-arrow { opacity: 1; }
-    .cert-slide-arrow:hover { transform: rotate(-45deg); }
-    .cert-slide-arrow svg { width: 14px; height: 14px; }
 
     /* ── Contact ────────────────────────────────────────────────── */
     .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; align-items: start; }
@@ -1266,7 +1231,7 @@
           </div>
         </div>
         <div class="hero-photo">
-          <img src="PORTFOLIO.svg" alt="Luiz Gustavo" class="hero-avatar">
+          <img src="Images/PORTFOLIO.svg" alt="Luiz Gustavo" class="hero-avatar">
         </div>
       </div>
     </div>
@@ -1388,12 +1353,12 @@
         <div class="vtabs-right reveal">
           <div class="vtabs-gallery" id="skills-gallery">
             <div class="vtabs-viewport skills-vp" id="skills-viewport">
-              <img class="vtabs-img" src="php.png"    alt="PHP">
-              <img class="vtabs-img" src="python.png" alt="Python">
-              <img class="vtabs-img" src="csharp.png" alt="C#">
-              <img class="vtabs-img feat-img-invert-dark" src="next.png" alt="Next.js">
-              <img class="vtabs-img" src="mysql.png"  alt="MySQL">
-              <img class="vtabs-img" src="claude.png" alt="Claude API">
+              <img class="vtabs-img" src="Images/php.png"    alt="PHP">
+              <img class="vtabs-img" src="Images/python.png" alt="Python">
+              <img class="vtabs-img" src="Images/csharp.png" alt="C#">
+              <img class="vtabs-img feat-img-invert-dark" src="Images/next.png" alt="Next.js">
+              <img class="vtabs-img" src="Images/mysql.png"  alt="MySQL">
+              <img class="vtabs-img" src="Images/claude.png" alt="Claude API">
             </div>
             <div class="vtabs-controls">
               <button class="vtabs-ctrl-btn" id="skills-prev" aria-label="Anterior">
@@ -1730,96 +1695,32 @@
           <h2 class="section-title">Certificados</h2>
           <p class="cert-header-sub">Cursos e certificações concluídos ao longo da minha trajetória.</p>
         </div>
-        <div class="cert-nav">
-          <button class="cert-nav-btn" id="cert-prev" disabled aria-label="Anterior">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          <button class="cert-nav-btn" id="cert-next" aria-label="Próximo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </div>
       </div>
 
       <!-- carousel -->
       <div class="cert-track-wrap">
         <div class="cert-track" id="cert-track">
 
-          <div class="cert-slide">
-            <img class="cert-slide-img" src="HTML & CSS.jpeg" alt="Certificado HTML e CSS — Origamid">
-            <div class="cert-slide-info">
-              <div class="cert-slide-title">HTML &amp; CSS para Iniciantes</div>
-              <div class="cert-slide-sub">Origamid · Curso completo de fundamentos web, cobrindo estrutura HTML semântica, estilização com CSS moderno, Flexbox, Grid Layout e boas práticas de desenvolvimento front-end.</div>
-            </div>
-            <a href="HTML & CSS.pdf" class="cert-slide-arrow" target="_blank" aria-label="Ver credencial">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </a>
-          </div>
-
-          <div class="cert-slide">
-            <img class="cert-slide-img" src="UI DESIGN.jpeg" alt="Certificado UI Design — Origamid">
-            <div class="cert-slide-info">
-              <div class="cert-slide-title">UI Design para Iniciantes</div>
-              <div class="cert-slide-sub">Origamid · Curso completo de design de interfaces, abordando fundamentos visuais, tipografia, cores, componentes, prototipagem e criação de layouts modernos com foco na experiência do usuário.</div>
-            </div>
-            <a href="UI DESIGN.pdf" class="cert-slide-arrow" target="_blank" aria-label="Ver credencial">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </a>
-          </div>
-
-          <div class="cert-slide">
-            <img class="cert-slide-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=640&h=420&fit=crop&q=80" alt="Certificado 2">
-            <div class="cert-slide-info">
-              <div class="cert-slide-title">Nome do Certificado</div>
-              <div class="cert-slide-sub">Instituição · 2024</div>
-            </div>
-            <a href="#" class="cert-slide-arrow" target="_blank" aria-label="Ver credencial">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </a>
-          </div>
-
-          <div class="cert-slide">
-            <img class="cert-slide-img" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=640&h=420&fit=crop&q=80" alt="Certificado 3">
-            <div class="cert-slide-info">
-              <div class="cert-slide-title">Nome do Certificado</div>
-              <div class="cert-slide-sub">Instituição · 2023</div>
-            </div>
-            <a href="#" class="cert-slide-arrow" target="_blank" aria-label="Ver credencial">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </a>
-          </div>
-
-          <div class="cert-slide">
-            <img class="cert-slide-img" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=640&h=420&fit=crop&q=80" alt="Certificado 4">
-            <div class="cert-slide-info">
-              <div class="cert-slide-title">Nome do Certificado</div>
-              <div class="cert-slide-sub">Instituição · 2023</div>
-            </div>
-            <a href="#" class="cert-slide-arrow" target="_blank" aria-label="Ver credencial">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </a>
-          </div>
-
-          <div class="cert-slide">
-            <img class="cert-slide-img" src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=640&h=420&fit=crop&q=80" alt="Certificado 5">
-            <div class="cert-slide-info">
-              <div class="cert-slide-title">Nome do Certificado</div>
-              <div class="cert-slide-sub">Instituição · 2022</div>
-            </div>
-            <a href="#" class="cert-slide-arrow" target="_blank" aria-label="Ver credencial">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </a>
-          </div>
-
-          <div class="cert-slide">
-            <img class="cert-slide-img" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=640&h=420&fit=crop&q=80" alt="Certificado 6">
-            <div class="cert-slide-info">
-              <div class="cert-slide-title">Nome do Certificado</div>
-              <div class="cert-slide-sub">Instituição · 2022</div>
-            </div>
-            <a href="#" class="cert-slide-arrow" target="_blank" aria-label="Ver credencial">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </a>
-          </div>
+          <!-- set original -->
+          <a class="cert-slide" href="PDF/CSS FLEXBOX.pdf" target="_blank" aria-label="CSS Flexbox">
+            <img class="cert-slide-img" src="Images/CSS FLEXBOX.jpeg" alt="Certificado CSS Flexbox">
+          </a>
+          <a class="cert-slide" href="PDF/HTML & CSS.pdf" target="_blank" aria-label="HTML e CSS">
+            <img class="cert-slide-img" src="Images/HTML & CSS.jpeg" alt="Certificado HTML e CSS">
+          </a>
+          <a class="cert-slide" href="PDF/UI DESIGN.pdf" target="_blank" aria-label="UI Design">
+            <img class="cert-slide-img" src="Images/UI DESIGN.jpeg" alt="Certificado UI Design">
+          </a>
+          <!-- set duplicado para loop infinito -->
+          <a class="cert-slide" href="PDF/CSS FLEXBOX.pdf" target="_blank" aria-hidden="true" tabindex="-1">
+            <img class="cert-slide-img" src="Images/CSS FLEXBOX.jpeg" alt="">
+          </a>
+          <a class="cert-slide" href="PDF/HTML & CSS.pdf" target="_blank" aria-hidden="true" tabindex="-1">
+            <img class="cert-slide-img" src="Images/HTML & CSS.jpeg" alt="">
+          </a>
+          <a class="cert-slide" href="PDF/UI DESIGN.pdf" target="_blank" aria-hidden="true" tabindex="-1">
+            <img class="cert-slide-img" src="Images/UI DESIGN.jpeg" alt="">
+          </a>
 
         </div>
       </div>
@@ -1885,20 +1786,23 @@
           </div>
         </div>
         <div class="reveal">
-          <form class="form-card" onsubmit="handleSubmit(event)">
+          <form class="form-card" action="https://formsubmit.co/gutobrantes@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Nova mensagem do Portfolio" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_next" value="https://gustavobachini.github.io/MeuPortfolio" />
             <div class="fg">
               <label class="fl">Nome</label>
-              <input type="text" class="fi" placeholder="Seu nome completo" required />
+              <input type="text" name="nome" class="fi" placeholder="Seu nome completo" required />
             </div>
             <div class="fg">
               <label class="fl">Email</label>
-              <input type="email" class="fi" placeholder="seu@email.com" required />
+              <input type="email" name="email" class="fi" placeholder="seu@email.com" required />
             </div>
             <div class="fg">
               <label class="fl">Mensagem</label>
-              <textarea class="fta" placeholder="Descreva seu projeto ou como posso ajudar..." required></textarea>
+              <textarea name="mensagem" class="fta" placeholder="Descreva seu projeto ou como posso ajudar..." required></textarea>
             </div>
-            <button type="submit" class="fsub" id="fsub">Enviar mensagem</button>
+            <button type="submit" class="fsub">Enviar mensagem</button>
           </form>
         </div>
       </div>
@@ -2260,91 +2164,6 @@
       startTimer();
     })();
 
-    // ── Certificates carousel (auto-scroll, pause on hover) ───────
-    (function () {
-      const wrap    = document.querySelector('.cert-track-wrap');
-      const track   = document.getElementById('cert-track');
-      const btnPrev = document.getElementById('cert-prev');
-      const btnNext = document.getElementById('cert-next');
-      if (!track || !wrap) return;
-
-      const SPEED   = 0.5;   // px per frame — ajuste aqui a velocidade
-      const ITEM_W  = 340;   // 320px card + 20px gap
-
-      let offset  = 0;
-      let paused  = false;
-      let raf;
-
-      // clone slides for infinite loop feel
-      const slides = Array.from(track.children);
-      slides.forEach(s => track.appendChild(s.cloneNode(true)));
-      const totalW = track.scrollWidth / 2; // half = original set
-
-      function tick() {
-        if (!paused) {
-          offset += SPEED;
-          if (offset >= totalW) offset -= totalW; // seamless loop
-          track.style.transform = `translateX(-${offset}px)`;
-        }
-        raf = requestAnimationFrame(tick);
-      }
-
-      // drag / swipe
-      let isDragging = false, dragStartX = 0, dragStartOffset = 0;
-
-      wrap.addEventListener('mousedown', e => {
-        isDragging = true;
-        paused = true;
-        dragStartX = e.pageX;
-        dragStartOffset = offset;
-        wrap.style.cursor = 'grabbing';
-        e.preventDefault();
-      });
-      window.addEventListener('mousemove', e => {
-        if (!isDragging) return;
-        const delta = dragStartX - e.pageX;
-        offset = ((dragStartOffset + delta) % totalW + totalW) % totalW;
-        track.style.transform = `translateX(-${offset}px)`;
-      });
-      window.addEventListener('mouseup', () => {
-        if (!isDragging) return;
-        isDragging = false;
-        paused = false;
-        wrap.style.cursor = 'grab';
-      });
-
-      wrap.addEventListener('touchstart', e => {
-        paused = true;
-        dragStartX = e.touches[0].pageX;
-        dragStartOffset = offset;
-      }, { passive: true });
-      wrap.addEventListener('touchmove', e => {
-        const delta = dragStartX - e.touches[0].pageX;
-        offset = ((dragStartOffset + delta) % totalW + totalW) % totalW;
-        track.style.transform = `translateX(-${offset}px)`;
-      }, { passive: true });
-      wrap.addEventListener('touchend', () => { paused = false; });
-
-      wrap.addEventListener('mouseenter', () => { if (!isDragging) paused = true; });
-      wrap.addEventListener('mouseleave', () => { if (!isDragging) paused = false; });
-
-      // manual prev/next
-      if (btnPrev && btnNext) {
-        btnPrev.addEventListener('click', () => {
-          offset = ((offset - ITEM_W) % totalW + totalW) % totalW;
-          track.style.transform = `translateX(-${offset}px)`;
-        });
-        btnNext.addEventListener('click', () => {
-          offset = (offset + ITEM_W) % totalW;
-          track.style.transform = `translateX(-${offset}px)`;
-        });
-        btnPrev.disabled = false;
-        btnNext.disabled = false;
-      }
-
-      wrap.style.cursor = 'grab';
-      raf = requestAnimationFrame(tick);
-    })();
   </script>
 </body>
 </html>
