@@ -628,85 +628,42 @@
 
     /* ── Timeline (Experience) ──────────────────────────────────── */
     #experience { padding: 0; }
-    .tl-wrap {
-      max-width: 800px; margin: 0 auto;
-      padding: 0 2rem 5rem;
-    }
-    #tl-entries { position: relative; }
-    .tl-header { padding: 5rem 0 3rem; }
+    /* ── Timeline (Experience) ──────────────────────────────────── */
+    .tl-wrap { max-width: 860px; margin: 0 auto; padding: 0 2rem 5rem; }
+    .tl-header { padding: 5rem 0 3.5rem; }
     .tl-header .label { display: block; margin-bottom: 0.6rem; }
     .tl-header h2 { margin-bottom: 0.5rem; }
     .tl-header p { font-size: 0.9rem; color: var(--text2); }
 
-    /* vertical track */
-    .tl-line-track {
-      position: absolute;
-      left: calc(2rem + 11px); /* center of 24px dot column */
-      top: 0; bottom: 0; width: 2px;
-      background: var(--border);
-      mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%);
-      pointer-events: none;
-    }
-    .tl-line-fill {
-      position: absolute; inset-x: 0; top: 0;
-      width: 2px; height: 0%;
-      background: var(--accent);
-      border-radius: 2px;
-      transition: height 0.05s linear;
-      opacity: 0;
-    }
+    #tl-entries { display: flex; flex-direction: column; gap: 1.25rem; }
 
-    /* entry row */
     .tl-entry {
-      position: relative;
       display: grid;
-      grid-template-columns: 24px 1fr;
-      gap: 0 1.75rem;
-      padding-bottom: 2.5rem;
-    }
-    .tl-entry:last-child { padding-bottom: 0; }
-
-    /* dot column */
-    .tl-dot-col {
-      display: flex; flex-direction: column; align-items: center;
-      padding-top: 0.3rem;
-    }
-    .tl-dot {
-      width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
-      background: var(--bg);
-      border: 2px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      transition: border-color 0.2s;
-      position: relative; z-index: 1;
-    }
-    .tl-dot::after {
-      content: ''; width: 8px; height: 8px; border-radius: 50%;
-      background: var(--muted);
-      transition: background 0.2s;
+      grid-template-columns: 110px 1fr;
+      gap: 0 2rem;
+      align-items: start;
     }
 
-    /* card column */
-    .tl-card-col { min-width: 0; }
-
-    /* period label */
-    .tl-period {
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em;
+    /* year column */
+    .tl-year {
+      padding-top: 1.5rem;
+      text-align: right;
+    }
+    .tl-year-main {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
       text-transform: uppercase; color: var(--muted);
-      margin-bottom: 0.6rem;
-      display: flex; align-items: center; gap: 0.5rem;
+      line-height: 1.4;
     }
-    .tl-period-badge {
-      display: inline-block;
+    .tl-year-badge {
+      display: inline-block; margin-top: 0.4rem;
       padding: 0.18rem 0.55rem; border-radius: 20px;
       background: var(--bg3); border: 1px solid var(--border);
-      font-size: 0.68rem; font-weight: 600; color: var(--text2);
-      letter-spacing: 0.04em; text-transform: none;
+      font-size: 0.65rem; font-weight: 600; color: var(--text2);
     }
-    .tl-period-badge.current {
+    .tl-year-badge.current {
       background: #eff6ff; border-color: #bfdbfe; color: var(--accent);
     }
-    html.dark .tl-period-badge.current {
+    html.dark .tl-year-badge.current {
       background: #1e3a8a22; border-color: #3b82f655; color: var(--accent2);
     }
 
@@ -715,26 +672,25 @@
       background: var(--bg); border: 1px solid var(--border);
       border-radius: var(--radius);
       border-left: 3px solid var(--accent);
-      padding: 1.4rem 1.6rem;
-      transition: box-shadow 0.15s;
+      padding: 1.5rem 1.75rem;
+      transition: box-shadow 0.2s, border-color 0.2s;
     }
-    .tl-card:hover {
-      box-shadow: var(--shadow);
-    }
-    .tl-card-head {
-      display: flex; align-items: baseline; justify-content: space-between;
-      gap: 1rem; flex-wrap: wrap; margin-bottom: 0.25rem;
-    }
-    .tl-role    { font-size: 1rem; font-weight: 700; color: var(--text); }
-    .tl-company { font-size: 0.82rem; color: var(--accent2); font-weight: 600; margin-bottom: 0.85rem; }
+    .tl-card:hover { box-shadow: var(--shadow); border-color: var(--accent2); }
+
+    .tl-role    { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+    .tl-company { font-size: 0.82rem; color: var(--accent2); font-weight: 600; margin-bottom: 0.9rem; }
     .tl-desc    { font-size: 0.875rem; color: var(--text2); line-height: 1.85; margin-bottom: 1rem; }
     .tl-chips   { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-    .tl-chip {
+    .tl-chip, .exp-chip {
       font-size: 0.7rem; font-weight: 500;
       padding: 0.2rem 0.6rem; border-radius: 5px;
       background: var(--bg3); border: 1px solid var(--border); color: var(--text2);
     }
-    .exp-chip { font-size: 0.7rem; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 5px; background: var(--bg3); border: 1px solid var(--border); color: var(--text2); }
+
+    @media (max-width: 600px) {
+      .tl-entry { grid-template-columns: 1fr; gap: 0.4rem; }
+      .tl-year { text-align: left; padding-top: 0; padding-left: 0; }
+    }
 
     /* ── Certificates Infinite Slider ───────────────────────────── */
     .cert-header {
@@ -1638,110 +1594,64 @@
 
         <!-- Entry 1 -->
         <div class="tl-entry reveal">
-          <div class="tl-dot-col">
-            <div class="tl-dot"></div>
+          <div class="tl-year">
+            <div class="tl-year-main">2024 —<br>Presente</div>
+            <span class="tl-year-badge current">Atual</span>
           </div>
-          <div class="tl-card-col">
-            <div class="tl-period">
-              <span class="tl-period-badge current">2024 — Presente</span>
-            </div>
-            <div class="tl-card">
-              <div class="tl-card-head">
-                <div class="tl-role">Software Developer &amp; AI Engineer</div>
-              </div>
-              <div class="tl-company">GT Vertex · Freelance</div>
-              <p class="tl-desc">
-                Responsável pelo desenvolvimento completo de um sistema de gestão comercial para distribuidoras, cobrindo módulo
-                de vendas, controle de estoque com alertas automáticos, emissão de pedidos e painel administrativo com métricas
-                em tempo real. Integrei a Claude API para automatizar o atendimento no WhatsApp Business — qualificação de leads,
-                envio de propostas personalizadas, acompanhamento pós-venda e respostas contextuais baseadas no histórico do cliente
-                — reduzindo o tempo de resposta manual em mais de 70%. Estruturei o backend com PHP e MySQL, o frontend com Next.js
-                e conduzi todo o ciclo do produto: levantamento de requisitos, desenvolvimento, deploys e suporte continuado ao cliente.
-              </p>
-              <div class="tl-chips">
-                <span class="tl-chip">Next.js</span>
-                <span class="tl-chip">PHP</span>
-                <span class="tl-chip">MySQL</span>
-                <span class="tl-chip">Claude API</span>
-                <span class="tl-chip">WhatsApp API</span>
-                <span class="tl-chip">Node.js</span>
-              </div>
+          <div class="tl-card">
+            <div class="tl-role">Software Developer &amp; AI Engineer</div>
+            <div class="tl-company">GT Vertex · Freelance</div>
+            <p class="tl-desc">Responsável pelo desenvolvimento completo de um sistema de gestão comercial para distribuidoras, cobrindo módulo de vendas, controle de estoque com alertas automáticos, emissão de pedidos e painel administrativo com métricas em tempo real. Integrei a Claude API para automatizar o atendimento no WhatsApp Business — qualificação de leads, envio de propostas personalizadas, acompanhamento pós-venda e respostas contextuais — reduzindo o tempo de resposta manual em mais de 70%.</p>
+            <div class="tl-chips">
+              <span class="tl-chip">Next.js</span>
+              <span class="tl-chip">PHP</span>
+              <span class="tl-chip">MySQL</span>
+              <span class="tl-chip">Claude API</span>
+              <span class="tl-chip">WhatsApp API</span>
+              <span class="tl-chip">Node.js</span>
             </div>
           </div>
         </div>
 
         <!-- Entry 2 -->
         <div class="tl-entry reveal">
-          <div class="tl-dot-col">
-            <div class="tl-dot"></div>
+          <div class="tl-year">
+            <div class="tl-year-main">2023 —<br>2024</div>
           </div>
-          <div class="tl-card-col">
-            <div class="tl-period">
-              <span class="tl-period-badge">2023 — 2024</span>
-            </div>
-            <div class="tl-card">
-              <div class="tl-card-head">
-                <div class="tl-role">Desenvolvedor Backend</div>
-              </div>
-              <div class="tl-company">Projetos Independentes</div>
-              <p class="tl-desc">
-                Construção de APIs REST para diferentes domínios — e-commerce, sistemas de agendamento e controle interno corporativo
-                — com autenticação JWT, controle de permissões por perfil de usuário e documentação completa via Swagger. Desenvolvi
-                dashboards administrativos com relatórios dinâmicos, filtros avançados e gráficos atualizados em tempo real. Nesse
-                período aprofundei os estudos em arquitetura de software, padrões de projeto e modelagem de banco de dados. Paralelamente,
-                iniciei a imersão em LLMs, prompt engineering e automações com Python — base que preparou a transição natural para
-                projetos de IA aplicada ao mundo real.
-              </p>
-              <div class="tl-chips">
-                <span class="tl-chip">PHP</span>
-                <span class="tl-chip">Python</span>
-                <span class="tl-chip">MySQL</span>
-                <span class="tl-chip">REST APIs</span>
-                <span class="tl-chip">JWT</span>
-                <span class="tl-chip">Swagger</span>
-              </div>
+          <div class="tl-card">
+            <div class="tl-role">Desenvolvedor Backend</div>
+            <div class="tl-company">Projetos Independentes</div>
+            <p class="tl-desc">Construção de APIs REST para diferentes domínios — e-commerce, sistemas de agendamento e controle interno corporativo — com autenticação JWT, controle de permissões e documentação via Swagger. Desenvolvi dashboards administrativos com relatórios dinâmicos e gráficos em tempo real. Nesse período iniciei a imersão em LLMs, prompt engineering e automações com Python — base que preparou a transição para projetos de IA aplicada.</p>
+            <div class="tl-chips">
+              <span class="tl-chip">PHP</span>
+              <span class="tl-chip">Python</span>
+              <span class="tl-chip">MySQL</span>
+              <span class="tl-chip">REST APIs</span>
+              <span class="tl-chip">JWT</span>
+              <span class="tl-chip">Swagger</span>
             </div>
           </div>
         </div>
 
         <!-- Entry 3 -->
         <div class="tl-entry reveal">
-          <div class="tl-dot-col">
-            <div class="tl-dot"></div>
+          <div class="tl-year">
+            <div class="tl-year-main">2022 —<br>2023</div>
           </div>
-          <div class="tl-card-col">
-            <div class="tl-period">
-              <span class="tl-period-badge">2022 — 2023</span>
-            </div>
-            <div class="tl-card">
-              <div class="tl-card-head">
-                <div class="tl-role">Início na Programação</div>
-              </div>
-              <div class="tl-company">Estudo &amp; Projetos Pessoais</div>
-              <p class="tl-desc">
-                Construção da base técnica por meio de estudo intenso e projetos práticos do zero: lógica de programação,
-                estruturas de dados, banco de dados relacional e desenvolvimento web full stack. Desenvolvi os primeiros sistemas
-                completos — um cadastro de clientes com geração de relatórios em C#, scripts de automação de tarefas repetitivas
-                em Python e páginas web responsivas com HTML, CSS e JavaScript puro. Cada projeto foi pensado para resolver um
-                problema real, o que consolidou tanto o raciocínio técnico quanto a disciplina de aprender construindo —
-                filosofia que orienta meu trabalho até hoje.
-              </p>
-              <div class="tl-chips">
-                <span class="tl-chip">HTML/CSS</span>
-                <span class="tl-chip">JavaScript</span>
-                <span class="tl-chip">PHP</span>
-                <span class="tl-chip">Python</span>
-                <span class="tl-chip">C#</span>
-                <span class="tl-chip">MySQL</span>
-              </div>
+          <div class="tl-card">
+            <div class="tl-role">Início na Programação</div>
+            <div class="tl-company">Estudo &amp; Projetos Pessoais</div>
+            <p class="tl-desc">Construção da base técnica por meio de estudo intenso e projetos práticos: lógica de programação, estruturas de dados, banco de dados relacional e desenvolvimento web full stack. Desenvolvi os primeiros sistemas completos — cadastro de clientes com relatórios em C#, scripts de automação em Python e páginas responsivas com HTML, CSS e JavaScript puro. Filosofia de aprender construindo que orienta meu trabalho até hoje.</p>
+            <div class="tl-chips">
+              <span class="tl-chip">HTML/CSS</span>
+              <span class="tl-chip">JavaScript</span>
+              <span class="tl-chip">PHP</span>
+              <span class="tl-chip">Python</span>
+              <span class="tl-chip">C#</span>
+              <span class="tl-chip">MySQL</span>
             </div>
           </div>
         </div>
-
-      <!-- vertical animated line -->
-      <div class="tl-line-track">
-        <div class="tl-line-fill" id="tl-line-fill"></div>
-      </div>
 
       </div><!-- /tl-entries -->
 
