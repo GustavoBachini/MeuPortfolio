@@ -744,45 +744,71 @@
     .cert-header-text { max-width: 560px; }
     .cert-header-sub  { font-size: 0.9rem; color: var(--muted); margin-top: 0.4rem; }
 
-    @keyframes cert-scroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+    /* ── Certificates Layout Grid ───────────────────────────────── */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      position: relative;
     }
+    @media (max-width: 700px) { .cert-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 440px) { .cert-grid { grid-template-columns: 1fr; } }
 
-    .cert-track-wrap {
-      overflow: hidden;
-      /* fade edges */
-      mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-    }
-    .cert-track {
-      display: flex; gap: 1.25rem;
-      width: max-content;
-      animation: cert-scroll 30s linear infinite;
-      will-change: transform;
-    }
-    .cert-track-wrap:hover .cert-track { animation-play-state: paused; }
-
-    /* each carousel card */
-    .cert-slide {
-      flex: 0 0 320px;
-      height: 340px;
+    .cert-item {
       border-radius: 16px;
       overflow: hidden;
-      display: block;
-      text-decoration: none;
+      cursor: pointer;
+      aspect-ratio: 4/3;
+      position: relative;
       border: 1px solid var(--border);
       background: var(--bg3);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .cert-slide:hover { transform: scale(1.03); box-shadow: 0 8px 28px rgba(0,0,0,0.12); }
-    @media (max-width: 600px) { .cert-slide { flex: 0 0 260px; height: 280px; } }
-
-    .cert-slide-img {
+    .cert-item:hover { transform: scale(1.02); box-shadow: 0 8px 28px rgba(0,0,0,0.12); }
+    .cert-item img {
       width: 100%; height: 100%;
       object-fit: cover; object-position: center top;
-      display: block;
+      display: block; pointer-events: none;
     }
+
+    /* overlay backdrop */
+    .cert-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .cert-overlay.active { opacity: 1; pointer-events: auto; }
+
+    /* expanded card */
+    .cert-expanded {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0.85);
+      width: min(680px, 92vw);
+      aspect-ratio: 4/3;
+      border-radius: 18px;
+      overflow: hidden;
+      z-index: 201;
+      opacity: 0; pointer-events: none;
+      transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+    }
+    .cert-expanded.active { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+    .cert-expanded img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+
+    /* open-pdf button inside expanded */
+    .cert-expanded-btn {
+      position: absolute; bottom: 1.2rem; right: 1.2rem;
+      background: #fff; color: #111;
+      font-size: 0.8rem; font-weight: 700;
+      padding: 0.55rem 1.1rem; border-radius: 8px;
+      text-decoration: none; letter-spacing: 0.02em;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+      transition: background 0.2s;
+    }
+    .cert-expanded-btn:hover { background: #f0f9ff; }
 
     /* ── Contact ────────────────────────────────────────────────── */
     .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; align-items: start; }
@@ -1735,38 +1761,29 @@
         </div>
       </div>
 
-      <!-- carousel -->
-      <div class="cert-track-wrap">
-        <div class="cert-track" id="cert-track">
-
-          <!-- set original -->
-          <a class="cert-slide" href="PDF/CSS FLEXBOX.pdf" target="_blank" aria-label="CSS Flexbox">
-            <img class="cert-slide-img" src="Images/CSS FLEXBOX.jpeg" alt="Certificado CSS Flexbox">
-          </a>
-          <a class="cert-slide" href="PDF/HTML & CSS.pdf" target="_blank" aria-label="HTML e CSS">
-            <img class="cert-slide-img" src="Images/HTML & CSS.jpeg" alt="Certificado HTML e CSS">
-          </a>
-          <a class="cert-slide" href="PDF/UI DESIGN.pdf" target="_blank" aria-label="UI Design">
-            <img class="cert-slide-img" src="Images/UI DESIGN.jpeg" alt="Certificado UI Design">
-          </a>
-          <a class="cert-slide" href="PDF/PHP.pdf" target="_blank" aria-label="PHP">
-            <img class="cert-slide-img" src="Images/PHP.jpg" alt="Certificado PHP">
-          </a>
-          <!-- set duplicado para loop infinito -->
-          <a class="cert-slide" href="PDF/CSS FLEXBOX.pdf" target="_blank" aria-hidden="true" tabindex="-1">
-            <img class="cert-slide-img" src="Images/CSS FLEXBOX.jpeg" alt="">
-          </a>
-          <a class="cert-slide" href="PDF/HTML & CSS.pdf" target="_blank" aria-hidden="true" tabindex="-1">
-            <img class="cert-slide-img" src="Images/HTML & CSS.jpeg" alt="">
-          </a>
-          <a class="cert-slide" href="PDF/UI DESIGN.pdf" target="_blank" aria-hidden="true" tabindex="-1">
-            <img class="cert-slide-img" src="Images/UI DESIGN.jpeg" alt="">
-          </a>
-          <a class="cert-slide" href="PDF/PHP.pdf" target="_blank" aria-hidden="true" tabindex="-1">
-            <img class="cert-slide-img" src="Images/PHP.jpg" alt="">
-          </a>
-
+      <!-- layout grid -->
+      <div class="cert-grid" id="cert-grid">
+        <div class="cert-item" data-pdf="PDF/CSS FLEXBOX.pdf">
+          <img src="Images/CSS FLEXBOX.jpeg" alt="Certificado CSS Flexbox">
         </div>
+        <div class="cert-item" data-pdf="PDF/HTML & CSS.pdf">
+          <img src="Images/HTML & CSS.jpeg" alt="Certificado HTML e CSS">
+        </div>
+        <div class="cert-item" data-pdf="PDF/UI DESIGN.pdf">
+          <img src="Images/UI DESIGN.jpeg" alt="Certificado UI Design">
+        </div>
+        <div class="cert-item" data-pdf="PDF/PHP.pdf">
+          <img src="Images/PHP.jpg" alt="Certificado PHP">
+        </div>
+      </div>
+
+      <!-- backdrop -->
+      <div class="cert-overlay" id="cert-overlay"></div>
+
+      <!-- expanded card -->
+      <div class="cert-expanded" id="cert-expanded">
+        <img id="cert-expanded-img" src="" alt="">
+        <a class="cert-expanded-btn" id="cert-expanded-link" href="#" target="_blank">Abrir PDF ↗</a>
       </div>
 
     </div>
@@ -2153,6 +2170,35 @@
       loop();
     })();
 
+
+    // ── Certificates Layout Grid ──────────────────────────────────
+    (function () {
+      const grid     = document.getElementById('cert-grid');
+      const overlay  = document.getElementById('cert-overlay');
+      const expanded = document.getElementById('cert-expanded');
+      const expImg   = document.getElementById('cert-expanded-img');
+      const expLink  = document.getElementById('cert-expanded-link');
+      if (!grid) return;
+
+      function open(item) {
+        expImg.src        = item.querySelector('img').src;
+        expImg.alt        = item.querySelector('img').alt;
+        expLink.href      = item.dataset.pdf;
+        overlay.classList.add('active');
+        expanded.classList.add('active');
+      }
+
+      function close() {
+        overlay.classList.remove('active');
+        expanded.classList.remove('active');
+      }
+
+      grid.querySelectorAll('.cert-item').forEach(item => {
+        item.addEventListener('click', () => open(item));
+      });
+      overlay.addEventListener('click', close);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    })();
 
   </script>
 </body>
