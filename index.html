@@ -673,6 +673,7 @@
     }
     .bento-mobile-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text); }
     .bento-mobile-card p  { font-size: 0.8rem; color: var(--text2); line-height: 1.6; }
+    .bento-mobile-hint { display: inline-block; margin-top: 0.6rem; font-size: 0.72rem; color: var(--accent); font-weight: 500; }
 
     /* keep badge colors for ptag used elsewhere */
     .badge-live { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; }
@@ -1510,13 +1511,15 @@
       </div>
       <!-- Mobile: texto simples -->
       <div class="bento-mobile">
-        <div class="bento-mobile-card">
+        <div class="bento-mobile-card" data-id="0" style="cursor:pointer;">
           <h3>Sistema de Vendas GT Vertex</h3>
           <p>Dashboard em tempo real, controle de pedidos e integração com WhatsApp Business.</p>
+          <span class="bento-mobile-hint">Toque para ver foto →</span>
         </div>
-        <div class="bento-mobile-card">
+        <div class="bento-mobile-card" data-id="1" style="cursor:pointer;">
           <h3>Bikecraft</h3>
           <p>Projeto para praticar HTML e CSS com foco em responsividade e fidelidade visual.</p>
+          <span class="bento-mobile-hint">Toque para ver foto →</span>
         </div>
       </div>
 
@@ -2132,6 +2135,7 @@
       }
 
       items.forEach(item => item.addEventListener('click', () => openModal(+item.dataset.id)));
+      [...document.querySelectorAll('.bento-mobile-card[data-id]')].forEach(card => card.addEventListener('click', () => openModal(+card.dataset.id)));
       thumbs.forEach(thumb => thumb.addEventListener('click', e => { e.stopPropagation(); openModal(+thumb.dataset.id); }));
       closeBtn.addEventListener('click', closeModal);
       backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
