@@ -696,73 +696,67 @@
     .tl-header h2 { margin-bottom: 0.5rem; }
     .tl-header p { font-size: 0.9rem; color: var(--text2); }
 
-    .htl-outer {
-      overflow-x: auto; padding: 0 2rem 1rem;
-      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
-    }
+    .htl-outer { overflow-x: auto; padding: 0 2rem 2rem; }
     .htl-track {
-      display: flex; position: relative;
-      min-width: max-content; gap: 0;
-      padding: 2rem 1rem 2rem;
-      align-items: flex-start;
-    }
-    /* horizontal line at dot level: card(290px) + stem(28px) + dot-radius(7px) + padding(2rem≈32px) */
-    .htl-track::before {
-      content: ''; position: absolute;
-      left: 1rem; right: 1rem;
-      top: calc(2rem + 290px + 28px + 7px);
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--border) 40px, var(--border) calc(100% - 40px), transparent);
-      z-index: 0;
+      display: flex; justify-content: center;
+      min-width: fit-content; margin: 0 auto;
+      padding: 2rem 0;
     }
     .htl-item {
       display: flex; flex-direction: column; align-items: center;
-      width: 280px; flex-shrink: 0; padding: 0 1rem;
+      width: 260px; flex-shrink: 0;
     }
-    .htl-card {
-      width: 100%; height: 290px; overflow-y: auto;
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: var(--radius); border-top: 3px solid var(--accent);
-      padding: 1.25rem 1.35rem;
-      transition: box-shadow 0.2s, border-color 0.2s;
-      scrollbar-width: none;
+    /* year label above dot */
+    .htl-year-lbl {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); text-align: center;
+      line-height: 1.5; margin-bottom: 0.5rem; min-height: 40px;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
     }
-    .htl-card::-webkit-scrollbar { display: none; }
-    .htl-card:hover { box-shadow: var(--shadow); border-color: var(--accent2); }
-    .htl-stem { width: 2px; height: 28px; background: var(--border); flex-shrink: 0; }
+    .htl-badge {
+      display: inline-block; margin-top: 0.2rem;
+      padding: 0.15rem 0.55rem; border-radius: 20px;
+      background: #eff6ff; border: 1px solid #bfdbfe;
+      font-size: 0.6rem; font-weight: 600; color: var(--accent);
+    }
+    html.dark .htl-badge { background: #1e3a8a22; border-color: #3b82f655; color: var(--accent2); }
+    /* dot row with line segments */
+    .htl-dot-row {
+      width: 100%; display: flex; align-items: center; margin-bottom: 0;
+    }
+    .htl-seg {
+      flex: 1; height: 2px; background: var(--border);
+    }
+    .htl-item:first-child .htl-seg:first-child,
+    .htl-item:last-child  .htl-seg:last-child { background: transparent; }
     .htl-dot {
       width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
       background: var(--accent); border: 3px solid var(--bg);
       box-shadow: 0 0 0 2px var(--accent); z-index: 1;
     }
     .htl-dot.current { background: var(--accent2); box-shadow: 0 0 0 2px var(--accent2); }
-    .htl-year-lbl {
-      margin-top: 0.75rem; font-size: 0.68rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--muted); text-align: center; line-height: 1.5;
+    /* stem below dot */
+    .htl-stem { width: 2px; height: 24px; background: var(--border); }
+    /* card — auto height, all text visible */
+    .htl-card {
+      width: 100%; padding: 1.25rem 1.35rem;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); border-top: 3px solid var(--accent);
+      transition: box-shadow 0.2s, border-color 0.2s;
     }
-    .htl-badge {
-      display: inline-block; margin-top: 0.25rem;
-      padding: 0.15rem 0.55rem; border-radius: 20px;
-      background: #eff6ff; border: 1px solid #bfdbfe;
-      font-size: 0.6rem; font-weight: 600; color: var(--accent);
-    }
-    html.dark .htl-badge { background: #1e3a8a22; border-color: #3b82f655; color: var(--accent2); }
+    .htl-card:hover { box-shadow: var(--shadow); border-color: var(--accent2); }
 
-    .tl-role    { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
-    .tl-company { font-size: 0.78rem; color: var(--accent2); font-weight: 600; margin-bottom: 0.75rem; }
-    .tl-desc    { font-size: 0.8rem; color: var(--text2); line-height: 1.75; margin-bottom: 0.85rem; }
+    .tl-role    { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+    .tl-company { font-size: 0.76rem; color: var(--accent2); font-weight: 600; margin-bottom: 0.75rem; }
+    .tl-desc    { font-size: 0.78rem; color: var(--text2); line-height: 1.75; margin-bottom: 0.85rem; }
     .tl-chips   { display: flex; flex-wrap: wrap; gap: 0.35rem; }
     .tl-chip, .exp-chip {
       font-size: 0.68rem; font-weight: 500;
       padding: 0.18rem 0.55rem; border-radius: 5px;
       background: var(--bg3); border: 1px solid var(--border); color: var(--text2);
     }
-
-    @media (max-width: 600px) {
-      .htl-item { width: 240px; }
-      .htl-card { height: 260px; }
-      .htl-track::before { top: calc(2rem + 260px + 28px + 7px); }
+    @media (max-width: 700px) {
+      .htl-item { width: 220px; }
     }
 
     /* ── Certificates Infinite Slider ───────────────────────────── */
@@ -1592,78 +1586,83 @@
 
           <!-- 2022 -->
           <div class="htl-item reveal">
+            <div class="htl-year-lbl">2022 — 2023</div>
+            <div class="htl-dot-row">
+              <div class="htl-seg"></div>
+              <div class="htl-dot"></div>
+              <div class="htl-seg"></div>
+            </div>
+            <div class="htl-stem"></div>
             <div class="htl-card">
               <div class="tl-role">Início na Programação</div>
               <div class="tl-company">Estudo &amp; Projetos Pessoais</div>
-              <p class="tl-desc">Em 2023, quando eu ainda estava na escola, comecei a me interessar por programação mais por curiosidade mesmo, vendo sites, aplicativos e jogos e querendo entender como tudo funcionava por trás. No começo eu não sabia quase nada, mas mesmo assim fui tentando e comecei a mexer com alguns códigos simples, testando, copiando exemplos e adaptando do meu jeito. Grande parte disso foi aprendendo sozinho, pesquisando na internet, vendo vídeos e colocando a mão na massa.</p>
+              <p class="tl-desc">Em 2023, quando eu ainda estava na escola, comecei a me interessar por programação mais por curiosidade, vendo sites e aplicativos e querendo entender como tudo funcionava. Fui tentando, mexendo em códigos simples, copiando exemplos e adaptando. Aprendi sozinho, pesquisando na internet e colocando a mão na massa.</p>
               <div class="tl-chips">
-                <span class="tl-chip">HTML/CSS</span>
-                <span class="tl-chip">JavaScript</span>
-                <span class="tl-chip">PHP</span>
-                <span class="tl-chip">Python</span>
-                <span class="tl-chip">C#</span>
-                <span class="tl-chip">MySQL</span>
+                <span class="tl-chip">HTML/CSS</span><span class="tl-chip">JavaScript</span>
+                <span class="tl-chip">PHP</span><span class="tl-chip">Python</span>
+                <span class="tl-chip">C#</span><span class="tl-chip">MySQL</span>
               </div>
             </div>
-            <div class="htl-stem"></div>
-            <div class="htl-dot"></div>
-            <div class="htl-year-lbl">2022 — 2023</div>
           </div>
 
           <!-- 2023 -->
           <div class="htl-item reveal">
-            <div class="htl-card">
-              <div class="tl-role">Desenvolvedor Backend</div>
-              <div class="tl-company">Projetos Independentes</div>
-              <p class="tl-desc">Em 2024, comecei a levar meu interesse por programação um pouco mais a sério, dando meus primeiros passos com Python e explorando o mundo das automações. Já conseguia criar pequenos scripts para facilitar tarefas do dia a dia. Fui evoluindo aos poucos, testando ideias, errando bastante e aprendendo na prática.</p>
-              <div class="tl-chips">
-                <span class="tl-chip">PHP</span>
-                <span class="tl-chip">Python</span>
-                <span class="tl-chip">MySQL</span>
-                <span class="tl-chip">REST APIs</span>
-                <span class="tl-chip">JWT</span>
-                <span class="tl-chip">Swagger</span>
-              </div>
+            <div class="htl-year-lbl">2023 — 2024</div>
+            <div class="htl-dot-row">
+              <div class="htl-seg"></div>
+              <div class="htl-dot"></div>
+              <div class="htl-seg"></div>
             </div>
             <div class="htl-stem"></div>
-            <div class="htl-dot"></div>
-            <div class="htl-year-lbl">2023 — 2024</div>
+            <div class="htl-card">
+              <div class="tl-role">Automações com Python</div>
+              <div class="tl-company">Projetos Independentes</div>
+              <p class="tl-desc">Comecei a levar a programação mais a sério, dando meus primeiros passos com Python e explorando automações. Criava scripts para facilitar tarefas do dia a dia. Fui evoluindo aos poucos, testando ideias e aprendendo na prática.</p>
+              <div class="tl-chips">
+                <span class="tl-chip">PHP</span><span class="tl-chip">Python</span>
+                <span class="tl-chip">MySQL</span><span class="tl-chip">REST APIs</span>
+              </div>
+            </div>
           </div>
 
           <!-- 2025 -->
           <div class="htl-item reveal">
-            <div class="htl-card">
-              <div class="tl-role">Desenvolvedor Front-end &amp; Back-end</div>
-              <div class="tl-company">Projetos Independentes</div>
-              <p class="tl-desc">Em 2025, dei um salto maior na programação, aprendendo PHP e MySQL para o back-end, mas foi no front-end que realmente me dediquei mais. Foquei bastante em HTML, CSS e Next.js. Comecei a trabalhar em projetos mais robustos, aprendendo a organizar melhor o código e estruturar aplicações.</p>
-              <div class="tl-chips">
-                <span class="tl-chip">HTML/CSS</span>
-                <span class="tl-chip">Next.js</span>
-                <span class="tl-chip">PHP</span>
-                <span class="tl-chip">MySQL</span>
-              </div>
+            <div class="htl-year-lbl">2025 — 2026</div>
+            <div class="htl-dot-row">
+              <div class="htl-seg"></div>
+              <div class="htl-dot"></div>
+              <div class="htl-seg"></div>
             </div>
             <div class="htl-stem"></div>
-            <div class="htl-dot"></div>
-            <div class="htl-year-lbl">2025 — 2026</div>
+            <div class="htl-card">
+              <div class="tl-role">Front-end &amp; Back-end</div>
+              <div class="tl-company">Projetos Independentes</div>
+              <p class="tl-desc">Dei um salto maior, aprendendo PHP e MySQL para o back-end. No front-end foquei em HTML, CSS e Next.js. Comecei projetos mais robustos, aprendendo a organizar melhor o código e estruturar aplicações completas.</p>
+              <div class="tl-chips">
+                <span class="tl-chip">HTML/CSS</span><span class="tl-chip">Next.js</span>
+                <span class="tl-chip">PHP</span><span class="tl-chip">MySQL</span>
+              </div>
+            </div>
           </div>
 
           <!-- 2026 -->
           <div class="htl-item reveal">
+            <div class="htl-year-lbl">2026 — Presente<br><span class="htl-badge">Atual</span></div>
+            <div class="htl-dot-row">
+              <div class="htl-seg"></div>
+              <div class="htl-dot current"></div>
+              <div class="htl-seg"></div>
+            </div>
+            <div class="htl-stem"></div>
             <div class="htl-card">
               <div class="tl-role">Desenvolvedor em Evolução</div>
               <div class="tl-company">Projetos Independentes</div>
-              <p class="tl-desc">Em 2026, conheci o Claude Code, e foi aí que meu interesse por programação realmente disparou. Comecei a enxergar um potencial muito maior no que eu podia criar. Passei a explorar ideias mais ambiciosas e minha evolução acelerou bastante, constantemente colocando em prática e testando novos limites.</p>
+              <p class="tl-desc">Conheci o Claude Code e meu interesse disparou. Passei a explorar ideias mais ambiciosas e minha evolução acelerou bastante, constantemente colocando em prática e testando novos limites como desenvolvedor.</p>
               <div class="tl-chips">
-                <span class="tl-chip">Claude Code</span>
-                <span class="tl-chip">AI Tools</span>
-                <span class="tl-chip">Next.js</span>
-                <span class="tl-chip">Full-stack</span>
+                <span class="tl-chip">Claude Code</span><span class="tl-chip">AI Tools</span>
+                <span class="tl-chip">Next.js</span><span class="tl-chip">Full-stack</span>
               </div>
             </div>
-            <div class="htl-stem"></div>
-            <div class="htl-dot current"></div>
-            <div class="htl-year-lbl">2026 — Presente<br><span class="htl-badge">Atual</span></div>
           </div>
 
         </div>
