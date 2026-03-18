@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+--<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -559,16 +559,25 @@
     }
     .stack-right-bg svg { width: 100px; height: 100px; opacity: 0.7; }
 
-    /* ── Projects Carousel ──────────────────────────────────────── */
-    .embla { position: relative; }
-    .embla__viewport { overflow: hidden; cursor: grab; }
-    .embla__viewport.is-dragging { cursor: grabbing; }
-    .embla__container {
-      display: flex; gap: 1rem;
-      user-select: none; -webkit-user-select: none;
+    /* ── Projects Infinite Slider ──────────────────────────────── */
+    @keyframes proj-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
-    .embla__slide { flex: 0 0 70%; min-width: 0; }
-    @media (max-width: 700px) { .embla__slide { flex: 0 0 88%; } }
+    .proj-track-wrap {
+      overflow: hidden;
+      mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    }
+    .proj-track {
+      display: flex; gap: 1.5rem;
+      width: max-content;
+      animation: proj-scroll 40s linear infinite;
+      will-change: transform;
+    }
+    .proj-track-wrap:hover .proj-track { animation-play-state: paused; }
+    .proj-slide { flex: 0 0 420px; }
+    @media (max-width: 700px) { .proj-slide { flex: 0 0 300px; } }
 
     .proj-card {
       background: var(--bg); border: 1px solid var(--border);
@@ -615,19 +624,6 @@
     .plink.primary { background: var(--accent); color: #fff; border-color: transparent; }
     .plink.primary:hover { background: #1e3a8a; }
 
-    /* carousel controls */
-    .embla__controls {
-      display: flex; align-items: center; justify-content: center;
-      gap: 1.25rem; margin-top: 1.5rem;
-    }
-    .embla__dots { display: flex; gap: 0.5rem; align-items: center; }
-    .embla__dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      border: 2px solid var(--border); background: transparent;
-      cursor: pointer; padding: 0; transition: background 0.2s, border-color 0.2s;
-    }
-    .embla__dot.is-selected { background: var(--text); border-color: var(--text); }
-    .embla__dot:hover:not(.is-selected) { background: var(--muted); }
 
 
     /* ── Timeline (Experience) ──────────────────────────────────── */
@@ -1060,8 +1056,8 @@
       /* Skills: image box smaller */
       .feat-img-stage { height: 160px !important; }
 
-      /* Projects carousel: full width slides */
-      .embla__slide { flex: 0 0 92%; }
+      /* Projects slider: narrower cards on mobile */
+      .proj-slide { flex: 0 0 280px; }
 
       /* Certificate cards: always show info (no hover on touch) */
       .cert-slide-img { height: 55% !important; }
@@ -1472,88 +1468,130 @@
         <h2 class="section-title">Trabalhos recentes</h2>
         <p class="section-desc" style="margin-top:0.4rem">Seleção de projetos desenvolvidos para clientes e uso próprio.</p>
       </div>
-      <div class="embla" id="proj-embla">
-        <div class="embla__viewport" id="proj-viewport">
-          <div class="embla__container" id="proj-container">
+      <div class="proj-track-wrap">
+        <div class="proj-track">
 
-            <div class="embla__slide">
-              <div class="proj-card">
-                <div class="proj-cover" style="background:#f0f9ff"><span>📊</span></div>
-                <div class="proj-body">
-                  <div class="proj-head"><div class="proj-title">Sistema de Vendas GT Vertex</div><span class="proj-badge badge-live">Live</span></div>
-                  <p class="proj-desc">Plataforma completa de gestão comercial desenvolvida para o time de vendas da GT Vertex. Conta com dashboard em tempo real, controle de pedidos e clientes, gestão de estoque com alertas automáticos e integração com WhatsApp Business para notificações instantâneas a cada atualização de status de pedido.</p>
-                  <div class="proj-tags"><span class="ptag">Next.js</span><span class="ptag">PHP</span><span class="ptag">MySQL</span><span class="ptag">WhatsApp API</span></div>
-                  <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-                </div>
-              </div>
+          <!-- set original -->
+          <div class="proj-slide"><div class="proj-card">
+            <div class="proj-cover" style="background:#f0f9ff"><span>📊</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">Sistema de Vendas GT Vertex</div><span class="proj-badge badge-live">Live</span></div>
+              <p class="proj-desc">Plataforma completa de gestão comercial com dashboard em tempo real, controle de pedidos, estoque e integração com WhatsApp Business.</p>
+              <div class="proj-tags"><span class="ptag">Next.js</span><span class="ptag">PHP</span><span class="ptag">MySQL</span><span class="ptag">WhatsApp API</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
             </div>
+          </div></div>
 
-            <div class="embla__slide">
-              <div class="proj-card">
-                <div class="proj-cover" style="background:#faf5ff"><span>🤖</span></div>
-                <div class="proj-body">
-                  <div class="proj-head"><div class="proj-title">AI Integration Platform</div><span class="proj-badge badge-dev">Dev</span></div>
-                  <p class="proj-desc">Plataforma que conecta a Claude API aos fluxos internos de empresas: recebe documentos via upload, extrai dados-chave com precisão, gera relatórios formatados automaticamente e responde dúvidas contextuais via chat — tudo sustentado por RAG com base de conhecimento proprietária e atualização incremental.</p>
-                  <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">FastAPI</span><span class="ptag">RAG</span></div>
-                  <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-                </div>
-              </div>
+          <div class="proj-slide"><div class="proj-card">
+            <div class="proj-cover" style="background:#faf5ff"><span>🤖</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">AI Integration Platform</div><span class="proj-badge badge-dev">Dev</span></div>
+              <p class="proj-desc">Plataforma que conecta a Claude API aos fluxos internos: extrai dados de documentos, gera relatórios e responde dúvidas via RAG.</p>
+              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">FastAPI</span><span class="ptag">RAG</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
             </div>
+          </div></div>
 
-            <div class="embla__slide">
-              <div class="proj-card">
-                <div class="proj-cover" style="background:#f0fdf4"><span>💬</span></div>
-                <div class="proj-body">
-                  <div class="proj-head"><div class="proj-title">WhatsApp Business Bot</div><span class="proj-badge badge-live">Live</span></div>
-                  <p class="proj-desc">Bot inteligente para WhatsApp Business que qualifica leads automaticamente, envia propostas personalizadas com base no perfil do contato e responde dúvidas de produto com contexto. Mantém memória de conversa persistente no MySQL e sincroniza oportunidades diretamente no CRM da empresa em tempo real.</p>
-                  <div class="proj-tags"><span class="ptag">Node.js</span><span class="ptag">WhatsApp API</span><span class="ptag">Claude API</span><span class="ptag">MySQL</span></div>
-                  <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-                </div>
-              </div>
+          <div class="proj-slide"><div class="proj-card">
+            <div class="proj-cover" style="background:#f0fdf4"><span>💬</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">WhatsApp Business Bot</div><span class="proj-badge badge-live">Live</span></div>
+              <p class="proj-desc">Bot inteligente que qualifica leads, envia propostas personalizadas e sincroniza oportunidades no CRM em tempo real.</p>
+              <div class="proj-tags"><span class="ptag">Node.js</span><span class="ptag">WhatsApp API</span><span class="ptag">Claude API</span><span class="ptag">MySQL</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
             </div>
+          </div></div>
 
-            <div class="embla__slide">
-              <div class="proj-card">
-                <div class="proj-cover" style="background:#fff7ed"><span>🔍</span></div>
-                <div class="proj-body">
-                  <div class="proj-head"><div class="proj-title">RAG Document Search</div><span class="proj-badge badge-dev">Dev</span></div>
-                  <p class="proj-desc">Sistema de busca semântica que transforma documentos corporativos — PDFs, contratos, manuais e e-mails — em uma base vetorial consultável via linguagem natural. O Claude gera respostas precisas citando os trechos exatos de origem, eliminando buscas manuais e reduzindo tempo de pesquisa interna em até 80%.</p>
-                  <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">Pinecone</span><span class="ptag">Embeddings</span></div>
-                  <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-                </div>
-              </div>
+          <div class="proj-slide"><div class="proj-card">
+            <div class="proj-cover" style="background:#fff7ed"><span>🔍</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">RAG Document Search</div><span class="proj-badge badge-dev">Dev</span></div>
+              <p class="proj-desc">Busca semântica em documentos corporativos via linguagem natural. O Claude cita os trechos exatos de origem nas respostas.</p>
+              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">Pinecone</span><span class="ptag">Embeddings</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
             </div>
+          </div></div>
 
-            <div class="embla__slide">
-              <div class="proj-card">
-                <div class="proj-cover" style="background:#fefce8"><span>🏷️</span></div>
-                <div class="proj-body">
-                  <div class="proj-head"><div class="proj-title">Smart Classification Engine</div><span class="proj-badge badge-live">Live</span></div>
-                  <p class="proj-desc">Pipeline de classificação automática que categoriza tickets de suporte e documentos em taxonomias pré-definidas usando few-shot prompting com exemplos curados. Inclui sistema de evals contínuas para monitorar acurácia ao longo do tempo e ajustar prompts automaticamente — suporta português, inglês e espanhol.</p>
-                  <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">Few-shot</span><span class="ptag">Evals</span></div>
-                  <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-                </div>
-              </div>
+          <div class="proj-slide"><div class="proj-card">
+            <div class="proj-cover" style="background:#fefce8"><span>🏷️</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">Smart Classification Engine</div><span class="proj-badge badge-live">Live</span></div>
+              <p class="proj-desc">Pipeline de classificação automática de tickets e documentos com few-shot prompting, evals contínuas e suporte multilíngue.</p>
+              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">Few-shot</span><span class="ptag">Evals</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
             </div>
+          </div></div>
 
-            <div class="embla__slide">
-              <div class="proj-card">
-                <div class="proj-cover" style="background:#f0f9ff"><span>🛎️</span></div>
-                <div class="proj-body">
-                  <div class="proj-head"><div class="proj-title">Customer Service Agent</div><span class="proj-badge badge-live">Live</span></div>
-                  <p class="proj-desc">Agente de atendimento ao cliente equipado com ferramentas reais para consultar status de pedidos, verificar disponibilidade em estoque e abrir chamados de suporte — tudo via tool use. Detecta automaticamente quando o cliente precisa de atendimento humano e faz a transferência preservando o histórico completo da conversa.</p>
-                  <div class="proj-tags"><span class="ptag">PHP</span><span class="ptag">Claude API</span><span class="ptag">Tool Use</span><span class="ptag">MySQL</span></div>
-                  <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-                </div>
-              </div>
+          <div class="proj-slide"><div class="proj-card">
+            <div class="proj-cover" style="background:#f0f9ff"><span>🛎️</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">Customer Service Agent</div><span class="proj-badge badge-live">Live</span></div>
+              <p class="proj-desc">Agente de atendimento com ferramentas reais para consultar pedidos, estoque e abrir chamados, com transferência para humano preservando histórico.</p>
+              <div class="proj-tags"><span class="ptag">PHP</span><span class="ptag">Claude API</span><span class="ptag">Tool Use</span><span class="ptag">MySQL</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
             </div>
+          </div></div>
 
-          </div><!-- /container -->
-        </div><!-- /viewport -->
+          <!-- set duplicado para loop infinito -->
+          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
+            <div class="proj-cover" style="background:#f0f9ff"><span>📊</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">Sistema de Vendas GT Vertex</div><span class="proj-badge badge-live">Live</span></div>
+              <p class="proj-desc">Plataforma completa de gestão comercial com dashboard em tempo real, controle de pedidos, estoque e integração com WhatsApp Business.</p>
+              <div class="proj-tags"><span class="ptag">Next.js</span><span class="ptag">PHP</span><span class="ptag">MySQL</span><span class="ptag">WhatsApp API</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
+            </div>
+          </div></div>
 
-        <!-- Controls -->
-        <div class="embla__controls">
-          <div class="embla__dots" id="proj-dots"></div>
+          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
+            <div class="proj-cover" style="background:#faf5ff"><span>🤖</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">AI Integration Platform</div><span class="proj-badge badge-dev">Dev</span></div>
+              <p class="proj-desc">Plataforma que conecta a Claude API aos fluxos internos: extrai dados de documentos, gera relatórios e responde dúvidas via RAG.</p>
+              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">FastAPI</span><span class="ptag">RAG</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
+            </div>
+          </div></div>
+
+          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
+            <div class="proj-cover" style="background:#f0fdf4"><span>💬</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">WhatsApp Business Bot</div><span class="proj-badge badge-live">Live</span></div>
+              <p class="proj-desc">Bot inteligente que qualifica leads, envia propostas personalizadas e sincroniza oportunidades no CRM em tempo real.</p>
+              <div class="proj-tags"><span class="ptag">Node.js</span><span class="ptag">WhatsApp API</span><span class="ptag">Claude API</span><span class="ptag">MySQL</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
+            </div>
+          </div></div>
+
+          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
+            <div class="proj-cover" style="background:#fff7ed"><span>🔍</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">RAG Document Search</div><span class="proj-badge badge-dev">Dev</span></div>
+              <p class="proj-desc">Busca semântica em documentos corporativos via linguagem natural. O Claude cita os trechos exatos de origem nas respostas.</p>
+              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">Pinecone</span><span class="ptag">Embeddings</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
+            </div>
+          </div></div>
+
+          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
+            <div class="proj-cover" style="background:#fefce8"><span>🏷️</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">Smart Classification Engine</div><span class="proj-badge badge-live">Live</span></div>
+              <p class="proj-desc">Pipeline de classificação automática de tickets e documentos com few-shot prompting, evals contínuas e suporte multilíngue.</p>
+              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">Few-shot</span><span class="ptag">Evals</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
+            </div>
+          </div></div>
+
+          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
+            <div class="proj-cover" style="background:#f0f9ff"><span>🛎️</span></div>
+            <div class="proj-body">
+              <div class="proj-head"><div class="proj-title">Customer Service Agent</div><span class="proj-badge badge-live">Live</span></div>
+              <p class="proj-desc">Agente de atendimento com ferramentas reais para consultar pedidos, estoque e abrir chamados, com transferência para humano preservando histórico.</p>
+              <div class="proj-tags"><span class="ptag">PHP</span><span class="ptag">Claude API</span><span class="ptag">Tool Use</span><span class="ptag">MySQL</span></div>
+              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
+            </div>
+          </div></div>
 
         </div>
       </div>
@@ -2109,60 +2147,6 @@
       loop();
     })();
 
-    // ── Projects Embla-style Carousel ────────────────────────────
-    (function () {
-      const viewport  = document.getElementById('proj-viewport');
-      const container = document.getElementById('proj-container');
-      const dotsWrap  = document.getElementById('proj-dots');
-      if (!viewport || !container) return;
-
-      const DELAY    = 3000;
-      const slides   = [...container.children];
-      const total    = slides.length;
-      let current    = 0;
-      let timer      = null;
-
-      // build dots
-      slides.forEach((_, i) => {
-        const d = document.createElement('button');
-        d.className = 'embla__dot' + (i === 0 ? ' is-selected' : '');
-        d.setAttribute('aria-label', 'Slide ' + (i + 1));
-        d.addEventListener('click', () => goTo(i, true));
-        dotsWrap.appendChild(d);
-      });
-      const dots = [...dotsWrap.children];
-
-      function getSlideOffset(i) {
-        const slideEl = slides[i];
-        return slideEl.offsetLeft - parseInt(getComputedStyle(container).paddingLeft || 0);
-      }
-
-      function goTo(i, resetPlay) {
-        current = (i + total) % total;
-        container.style.transition = 'transform 0.45s cubic-bezier(0.25,1,0.5,1)';
-        container.style.transform  = `translateX(-${getSlideOffset(current)}px)`;
-        dots.forEach((d, idx) => d.classList.toggle('is-selected', idx === current));
-        if (resetPlay) { clearInterval(timer); startTimer(); }
-      }
-
-      function startTimer() {
-        clearInterval(timer);
-        timer = setInterval(() => goTo(current + 1, false), DELAY);
-      }
-
-      // drag / swipe
-      let startX = 0, isDragging = false, dragDelta = 0;
-      viewport.addEventListener('mousedown',  e => { isDragging = true; startX = e.pageX; viewport.classList.add('is-dragging'); container.style.transition = 'none'; });
-      window.addEventListener('mousemove',    e => { if (!isDragging) return; dragDelta = e.pageX - startX; container.style.transform = `translateX(${-getSlideOffset(current) + dragDelta}px)`; });
-      window.addEventListener('mouseup',      () => { if (!isDragging) return; isDragging = false; viewport.classList.remove('is-dragging'); if (dragDelta < -60) goTo(current + 1, true); else if (dragDelta > 60) goTo(current - 1, true); else goTo(current, true); dragDelta = 0; });
-      viewport.addEventListener('touchstart', e => { startX = e.touches[0].pageX; container.style.transition = 'none'; }, { passive: true });
-      viewport.addEventListener('touchmove',  e => { dragDelta = e.touches[0].pageX - startX; container.style.transform = `translateX(${-getSlideOffset(current) + dragDelta}px)`; }, { passive: true });
-      viewport.addEventListener('touchend',   () => { if (dragDelta < -50) goTo(current + 1, true); else if (dragDelta > 50) goTo(current - 1, true); else goTo(current, true); dragDelta = 0; });
-
-      // init
-      container.style.transform = 'translateX(0)';
-      startTimer();
-    })();
 
   </script>
 </body>
