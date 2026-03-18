@@ -560,113 +560,106 @@
     .stack-right-bg svg { width: 100px; height: 100px; opacity: 0.7; }
 
     /* ── Projects Feature Carousel ──────────────────────────────── */
-    .feat-carousel {
-      border-radius: 2rem;
-      overflow: hidden;
-      display: flex;
-      flex-direction: row;
-      min-height: 680px;
-      border: 1px solid var(--border);
+    /* ── Bento Gallery ──────────────────────────────────────────── */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 80px;
+      gap: 12px;
     }
-
-    /* Left: slot machine */
-    .feat-left {
-      width: 38%;
-      background: var(--accent);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      overflow: hidden;
-      padding: 0 2rem;
+    .bento-item {
+      position: relative; overflow: hidden; border-radius: 1rem;
+      cursor: pointer; background: var(--bg3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .feat-left::before, .feat-left::after {
-      content: ''; position: absolute; left: 0; right: 0; height: 90px; z-index: 10; pointer-events: none;
+    .bento-item:hover { transform: scale(1.02); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
+    .bento-item img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; transition: transform 0.4s ease;
     }
-    .feat-left::before { top: 0;    background: linear-gradient(to bottom, var(--accent) 0%, transparent 100%); }
-    .feat-left::after  { bottom: 0; background: linear-gradient(to top,    var(--accent) 0%, transparent 100%); }
-
-    .feat-items-wrap {
-      position: relative; width: 100%; height: 390px;
-      display: flex; align-items: center;
-    }
-    .feat-item {
-      position: absolute; left: 0; width: 100%; height: 65px;
-      display: flex; align-items: center;
-      transition: transform 0.55s cubic-bezier(0.34,1.3,0.64,1), opacity 0.4s ease;
-    }
-    .feat-item-btn {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.7rem 1.4rem; border-radius: 100px;
-      border: 1px solid rgba(255,255,255,0.25);
-      background: transparent; color: rgba(255,255,255,0.55);
-      font-size: 0.75rem; font-weight: 600;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      cursor: pointer; transition: all 0.3s ease; white-space: nowrap;
-    }
-    .feat-item-btn.is-active {
-      background: #fff; color: var(--accent); border-color: #fff;
-    }
-    .feat-item-icon { font-size: 1rem; }
-
-    /* Right: stacked cards */
-    .feat-right {
-      flex: 1; background: var(--bg2);
-      display: flex; align-items: center; justify-content: center;
-      padding: 2rem; border-left: 1px solid var(--border);
-      position: relative;
-    }
-    .feat-cards-wrap {
-      position: relative; width: min(400px, 100%); aspect-ratio: 4/5;
-    }
-    .feat-card {
+    .bento-item:hover img { transform: scale(1.05); }
+    .bento-hover {
       position: absolute; inset: 0;
-      border-radius: 1.75rem; overflow: hidden;
-      border: 6px solid var(--bg); background: var(--bg3);
-      transition: transform 0.5s cubic-bezier(0.34,1.2,0.64,1), opacity 0.4s ease;
-      pointer-events: none;
-    }
-    .feat-card.is-active { transform: translateX(0) scale(1) rotate(0deg);   opacity: 1;   z-index: 20; pointer-events: auto; }
-    .feat-card.is-prev   { transform: translateX(-80px) scale(0.85) rotate(-3deg); opacity: 0.4; z-index: 10; }
-    .feat-card.is-next   { transform: translateX( 80px) scale(0.85) rotate( 3deg); opacity: 0.4; z-index: 10; }
-    .feat-card.is-hidden { transform: scale(0.7); opacity: 0; z-index: 0; }
-
-    .feat-card-cover {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center; font-size: 5rem;
-    }
-    .feat-card-overlay {
-      position: absolute; inset-x: 0; bottom: 0;
-      padding: 2.5rem 1.25rem 1.25rem;
-      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
       display: flex; flex-direction: column; justify-content: flex-end;
-      transition: opacity 0.3s ease;
+      padding: 1rem 1.1rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
+      opacity: 0; transition: opacity 0.25s ease;
     }
-    .feat-card:not(.is-active) .feat-card-overlay { opacity: 0; }
-    .feat-card-badge {
-      display: inline-block; background: var(--bg); color: var(--text);
-      padding: 0.25rem 0.8rem; border-radius: 100px;
-      font-size: 0.62rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.15em; margin-bottom: 0.6rem; width: fit-content;
-      border: 1px solid var(--border);
-    }
-    .feat-card-title { color: #fff; font-size: 1.1rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.3rem; }
-    .feat-card-desc  { color: rgba(255,255,255,0.78); font-size: 0.78rem; line-height: 1.6; }
+    .bento-item:hover .bento-hover { opacity: 1; }
+    .bento-hover h3 { color: #fff; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .bento-hover p  { color: rgba(255,255,255,0.75); font-size: 0.72rem; line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-    .feat-live {
-      position: absolute; top: 1.1rem; left: 1.1rem;
-      display: flex; align-items: center; gap: 0.45rem;
-      opacity: 0; transition: opacity 0.3s ease;
+    /* Modal */
+    .bento-backdrop {
+      position: fixed; inset: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
     }
-    .feat-card.is-active .feat-live { opacity: 1; }
-    .feat-live-dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px #fff; }
-    .feat-live-text { color: rgba(255,255,255,0.75); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.28em; font-family: monospace; }
+    .bento-backdrop.is-open { opacity: 1; pointer-events: auto; }
+    .bento-modal-box {
+      position: relative; width: min(760px, 92vw); aspect-ratio: 16/9;
+      border-radius: 1.5rem; overflow: hidden; background: #111;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.55);
+      transform: scale(0.96);
+      transition: transform 0.35s cubic-bezier(0.34,1.3,0.64,1);
+    }
+    .bento-backdrop.is-open .bento-modal-box { transform: scale(1); }
+    .bento-modal-box img { width: 100%; height: 100%; object-fit: cover; }
+    .bento-modal-info {
+      position: absolute; inset-x: 0; bottom: 0;
+      padding: 3rem 1.5rem 1.5rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.88), transparent);
+    }
+    .bento-modal-info h3 { color: #fff; font-size: 1.15rem; font-weight: 700; }
+    .bento-modal-info p  { color: rgba(255,255,255,0.75); font-size: 0.8rem; margin-top: 0.3rem; line-height: 1.6; }
+    .bento-modal-close {
+      position: absolute; top: 0.75rem; right: 0.75rem;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.15); border: none; color: #fff;
+      font-size: 1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(4px); transition: background 0.2s;
+    }
+    .bento-modal-close:hover { background: rgba(255,255,255,0.3); }
 
-    @media (max-width: 768px) {
-      .feat-carousel { flex-direction: column; }
-      .feat-left { width: 100%; min-height: 220px; padding: 1.5rem; }
-      .feat-items-wrap { height: 260px; }
-      .feat-right { min-height: 420px; padding: 1.5rem; }
+    /* Dock */
+    .bento-dock {
+      position: fixed; bottom: 1.5rem; left: 50%;
+      transform: translateX(-50%);
+      z-index: 1001; display: none; user-select: none;
+    }
+    .bento-dock.is-open { display: block; }
+    .bento-dock-inner {
+      display: flex; align-items: flex-end; gap: 0;
+      padding: 0.5rem 0.85rem 0.6rem;
+      border-radius: 1rem;
+      background: rgba(100,170,255,0.18);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(100,170,255,0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      cursor: grab;
+    }
+    .bento-dock-inner:active { cursor: grabbing; }
+    .bento-thumb {
+      width: 42px; height: 42px; border-radius: 0.5rem; overflow: hidden;
+      margin: 0 -5px; border: 2px solid transparent; cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.34,1.5,0.64,1), box-shadow 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .bento-thumb:nth-child(odd)  { transform: rotate(-12deg); }
+    .bento-thumb:nth-child(even) { transform: rotate(12deg); }
+    .bento-thumb:hover { transform: scale(1.35) translateY(-10px) rotate(0deg) !important; z-index: 10; }
+    .bento-thumb.is-active { transform: scale(1.2) translateY(-8px) rotate(0deg) !important;
+      border-color: rgba(255,255,255,0.75); box-shadow: 0 0 14px rgba(255,255,255,0.35); z-index: 5; }
+    .bento-thumb img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+
+    @media (max-width: 600px) {
+      .bento-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; }
     }
 
     /* keep badge colors for ptag used elsewhere */
@@ -1503,44 +1496,42 @@
         <h2 class="section-title">Trabalhos recentes</h2>
         <p class="section-desc" style="margin-top:0.4rem">Seleção de projetos desenvolvidos para clientes e uso próprio.</p>
       </div>
-      <div class="feat-carousel">
-
-        <!-- Left: slot machine labels -->
-        <div class="feat-left">
-          <div class="feat-items-wrap" id="feat-items">
-            <div class="feat-item" data-i="0"><button class="feat-item-btn is-active" data-i="0"><span class="feat-item-icon">📊</span><span>GT Vertex Sales</span></button></div>
-            <div class="feat-item" data-i="1"><button class="feat-item-btn" data-i="1"><span class="feat-item-icon">🚲</span><span>Bikecraft</span></button></div>
+      <!-- Bento Grid -->
+      <div class="bento-grid">
+        <div class="bento-item" style="grid-column:span 2;grid-row:span 6;" data-id="0">
+          <img src="Images/projetos/gtvertex.jpeg" alt="GT Vertex" loading="lazy">
+          <div class="bento-hover">
+            <h3>Sistema de Vendas GT Vertex</h3>
+            <p>Dashboard em tempo real, controle de pedidos e integração com WhatsApp Business.</p>
           </div>
         </div>
-
-        <!-- Right: stacked cards -->
-        <div class="feat-right">
-          <div class="feat-cards-wrap">
-
-            <div class="feat-card is-active" data-i="0">
-              <div class="feat-live"><div class="feat-live-dot"></div><span class="feat-live-text">Live Session</span></div>
-              <img src="Images/Trabalhos Recentes/gtvertex.jpg" alt="GT Vertex" style="width:100%;height:100%;object-fit:cover;object-position:center;">
-              <div class="feat-card-overlay">
-                <div class="feat-card-badge">1 · GT Vertex Sales</div>
-                <div class="feat-card-title">Sistema de Vendas GT Vertex</div>
-                <p class="feat-card-desc">Dashboard em tempo real, controle de pedidos e integração com WhatsApp Business.</p>
-              </div>
-            </div>
-
-            <div class="feat-card is-next" data-i="1">
-              <div class="feat-live"><div class="feat-live-dot"></div><span class="feat-live-text">Live Session</span></div>
-              <img src="Images/Trabalhos Recentes/bikecraft.jpg" alt="Bikecraft" style="width:100%;height:100%;object-fit:cover;object-position:center;">
-              <div class="feat-card-overlay">
-                <div class="feat-card-badge">2 · Bikecraft</div>
-                <div class="feat-card-title">Bikecraft</div>
-                <p class="feat-card-desc">Projeto desenvolvido para colocar em prática minhas habilidades de HTML e CSS, recriando um layout completo com foco em responsividade e fidelidade visual.</p>
-              </div>
-            </div>
-
-
+        <div class="bento-item" style="grid-column:span 1;grid-row:span 6;" data-id="1">
+          <img src="Images/projetos/bikecraft.jpeg" alt="Bikecraft" loading="lazy">
+          <div class="bento-hover">
+            <h3>Bikecraft</h3>
+            <p>Projeto para praticar HTML e CSS com foco em responsividade e fidelidade visual.</p>
           </div>
         </div>
+      </div>
 
+      <!-- Modal -->
+      <div class="bento-backdrop" id="bento-backdrop">
+        <div class="bento-modal-box" id="bento-box">
+          <img id="bento-modal-img" src="" alt="">
+          <div class="bento-modal-info">
+            <h3 id="bento-modal-title"></h3>
+            <p id="bento-modal-desc"></p>
+          </div>
+          <button class="bento-modal-close" id="bento-close">✕</button>
+        </div>
+      </div>
+
+      <!-- Dock -->
+      <div class="bento-dock" id="bento-dock">
+        <div class="bento-dock-inner" id="bento-dock-inner">
+          <div class="bento-thumb" data-id="0"><img src="Images/projetos/gtvertex.jpeg" alt="GT Vertex"></div>
+          <div class="bento-thumb" data-id="1"><img src="Images/projetos/bikecraft.jpeg" alt="Bikecraft"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -2082,65 +2073,56 @@
     })();
 
 
-    // ── Projects Feature Carousel ─────────────────────────────────
+    // ── Bento Gallery ─────────────────────────────────────────────
     (function () {
-      const N = 6, ITEM_H = 65;
-      let step = 0, timer = null, paused = false;
+      const PROJECTS = [
+        { id: 0, img: 'Images/projetos/gtvertex.jpeg',  title: 'Sistema de Vendas GT Vertex', desc: 'Dashboard em tempo real, controle de pedidos e integração com WhatsApp Business.' },
+        { id: 1, img: 'Images/projetos/bikecraft.jpeg', title: 'Bikecraft',                   desc: 'Projeto para praticar HTML e CSS com foco em responsividade e fidelidade visual.' },
+      ];
 
-      const items = [...document.querySelectorAll('.feat-items-wrap .feat-item')];
-      const btns  = [...document.querySelectorAll('.feat-item-btn')];
-      const cards = [...document.querySelectorAll('.feat-card')];
-      if (!items.length) return;
+      const backdrop   = document.getElementById('bento-backdrop');
+      const modalImg   = document.getElementById('bento-modal-img');
+      const modalTitle = document.getElementById('bento-modal-title');
+      const modalDesc  = document.getElementById('bento-modal-desc');
+      const closeBtn   = document.getElementById('bento-close');
+      const dock       = document.getElementById('bento-dock');
+      const dockInner  = document.getElementById('bento-dock-inner');
+      const thumbs     = [...document.querySelectorAll('.bento-thumb')];
+      const items      = [...document.querySelectorAll('.bento-item[data-id]')];
+      if (!backdrop) return;
 
-      function wrap(v) { return ((v % N) + N) % N; }
+      let currentId = 0;
 
-      function update() {
-        const cur  = wrap(step);
-        const prev = wrap(step - 1);
-        const next = wrap(step + 1);
-
-        items.forEach((item, i) => {
-          let d = i - cur;
-          if (d >  N / 2) d -= N;
-          if (d < -N / 2) d += N;
-          item.style.transform = `translateY(${d * ITEM_H}px)`;
-          item.style.opacity   = Math.max(0, 1 - Math.abs(d) * 0.25);
-        });
-
-        btns.forEach((btn, i) => btn.classList.toggle('is-active', i === cur));
-
-        cards.forEach((card, i) => {
-          card.classList.remove('is-active','is-prev','is-next','is-hidden');
-          if      (i === cur)  card.classList.add('is-active');
-          else if (i === prev) card.classList.add('is-prev');
-          else if (i === next) card.classList.add('is-next');
-          else                 card.classList.add('is-hidden');
-        });
+      function openModal(id) {
+        const p = PROJECTS[id]; currentId = id;
+        modalImg.src = p.img; modalImg.alt = p.title;
+        modalTitle.textContent = p.title; modalDesc.textContent = p.desc;
+        backdrop.classList.add('is-open'); dock.classList.add('is-open');
+        updateThumbs();
+      }
+      function closeModal() {
+        backdrop.classList.remove('is-open'); dock.classList.remove('is-open');
+      }
+      function updateThumbs() {
+        thumbs.forEach(t => t.classList.toggle('is-active', +t.dataset.id === currentId));
       }
 
-      function startTimer() {
-        clearInterval(timer);
-        timer = setInterval(() => { if (!paused) { step++; update(); } }, 3000);
-      }
+      items.forEach(item => item.addEventListener('click', () => openModal(+item.dataset.id)));
+      thumbs.forEach(thumb => thumb.addEventListener('click', e => { e.stopPropagation(); openModal(+thumb.dataset.id); }));
+      closeBtn.addEventListener('click', closeModal);
+      backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
 
-      btns.forEach((btn, i) => {
-        btn.addEventListener('click', () => {
-          const diff = (i - wrap(step) + N) % N;
-          if (diff > 0) step += diff;
-          update();
-          clearInterval(timer);
-          startTimer();
-        });
+      // Draggable dock
+      let dragging = false, startX = 0, startY = 0, dockX = 0, dockY = 0;
+      dockInner.addEventListener('mousedown', e => {
+        dragging = true; startX = e.clientX - dockX; startY = e.clientY - dockY;
       });
-
-      const carousel = document.querySelector('.feat-carousel');
-      if (carousel) {
-        carousel.addEventListener('mouseenter', () => { paused = true; });
-        carousel.addEventListener('mouseleave', () => { paused = false; });
-      }
-
-      update();
-      startTimer();
+      document.addEventListener('mousemove', e => {
+        if (!dragging) return;
+        dockX = e.clientX - startX; dockY = e.clientY - startY;
+        dock.style.transform = `translateX(calc(-50% + ${dockX}px)) translateY(${dockY}px)`;
+      });
+      document.addEventListener('mouseup', () => { dragging = false; });
     })();
 
     // ── Certificates Layout Grid ──────────────────────────────────
