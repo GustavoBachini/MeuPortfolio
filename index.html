@@ -774,8 +774,19 @@
       gap: 1rem;
       position: relative;
     }
-    @media (max-width: 700px) { .cert-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 440px) { .cert-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { .cert-grid { display: none; } }
+    @media (min-width: 601px) { .cert-mobile-list { display: none; } }
+
+    .cert-mobile-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .cert-mobile-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.2rem; border-radius: 0.85rem;
+      border: 1px solid var(--border); background: var(--bg2);
+      cursor: pointer; transition: background 0.2s;
+    }
+    .cert-mobile-item:hover { background: var(--bg3); }
+    .cert-mobile-name { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+    .cert-mobile-arrow { font-size: 0.85rem; color: var(--accent); }
 
     .cert-item {
       border-radius: 16px;
@@ -1684,6 +1695,26 @@
         </div>
       </div>
 
+      <!-- Mobile: lista sem foto -->
+      <div class="cert-mobile-list" id="cert-mobile-list">
+        <div class="cert-mobile-item" data-img="Images/Cursos/CSS FLEXBOX.jpeg" data-pdf="PDF/CSS FLEXBOX.pdf">
+          <span class="cert-mobile-name">CSS Flexbox</span>
+          <span class="cert-mobile-arrow">→</span>
+        </div>
+        <div class="cert-mobile-item" data-img="Images/Cursos/HTML &amp; CSS.jpeg" data-pdf="PDF/HTML &amp; CSS.pdf">
+          <span class="cert-mobile-name">HTML &amp; CSS</span>
+          <span class="cert-mobile-arrow">→</span>
+        </div>
+        <div class="cert-mobile-item" data-img="Images/Cursos/UI DESIGN.jpeg" data-pdf="PDF/UI DESIGN.pdf">
+          <span class="cert-mobile-name">UI Design</span>
+          <span class="cert-mobile-arrow">→</span>
+        </div>
+        <div class="cert-mobile-item" data-img="Images/Cursos/PHP.jpg" data-pdf="PDF/PHP.pdf">
+          <span class="cert-mobile-name">PHP</span>
+          <span class="cert-mobile-arrow">→</span>
+        </div>
+      </div>
+
       <!-- layout grid -->
       <div class="cert-grid" id="cert-grid">
         <div class="cert-item" data-pdf="PDF/CSS FLEXBOX.pdf">
@@ -2156,10 +2187,10 @@
       const expLink  = document.getElementById('cert-expanded-link');
       if (!grid) return;
 
-      function open(item) {
-        expImg.src        = item.querySelector('img').src;
-        expImg.alt        = item.querySelector('img').alt;
-        expLink.href      = item.dataset.pdf;
+      function openModal(imgSrc, imgAlt, pdfHref) {
+        expImg.src   = imgSrc;
+        expImg.alt   = imgAlt;
+        expLink.href = pdfHref;
         overlay.classList.add('active');
         expanded.classList.add('active');
       }
@@ -2170,8 +2201,13 @@
       }
 
       grid.querySelectorAll('.cert-item').forEach(item => {
-        item.addEventListener('click', () => open(item));
+        item.addEventListener('click', () => openModal(item.querySelector('img').src, item.querySelector('img').alt, item.dataset.pdf));
       });
+
+      document.querySelectorAll('.cert-mobile-item').forEach(item => {
+        item.addEventListener('click', () => openModal(item.dataset.img, item.querySelector('.cert-mobile-name').textContent, item.dataset.pdf));
+      });
+
       overlay.addEventListener('click', close);
       document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
     })();
