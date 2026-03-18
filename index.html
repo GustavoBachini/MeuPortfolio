@@ -559,70 +559,123 @@
     }
     .stack-right-bg svg { width: 100px; height: 100px; opacity: 0.7; }
 
-    /* ── Projects Infinite Slider ──────────────────────────────── */
-    @keyframes proj-scroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-    .proj-track-wrap {
+    /* ── Projects Feature Carousel ──────────────────────────────── */
+    .feat-carousel {
+      border-radius: 2rem;
       overflow: hidden;
-      mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+      display: flex;
+      flex-direction: row;
+      min-height: 520px;
+      border: 1px solid var(--border);
     }
-    .proj-track {
-      display: flex; gap: 1.5rem;
-      width: max-content;
-      animation: proj-scroll 40s linear infinite;
-      will-change: transform;
-    }
-    .proj-track-wrap:hover .proj-track { animation-play-state: paused; }
-    .proj-slide { flex: 0 0 560px; }
-    @media (max-width: 700px) { .proj-slide { flex: 0 0 88vw; } }
 
-    .proj-card {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
-      transition: border-color 0.2s, box-shadow 0.25s;
-      display: flex; flex-direction: column; height: 100%;
+    /* Left: slot machine */
+    .feat-left {
+      width: 38%;
+      background: var(--accent);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      padding: 0 2rem;
     }
-    .proj-card:hover { border-color: var(--accent2); box-shadow: var(--shadow); }
+    .feat-left::before, .feat-left::after {
+      content: ''; position: absolute; left: 0; right: 0; height: 90px; z-index: 10; pointer-events: none;
+    }
+    .feat-left::before { top: 0;    background: linear-gradient(to bottom, var(--accent) 0%, transparent 100%); }
+    .feat-left::after  { bottom: 0; background: linear-gradient(to top,    var(--accent) 0%, transparent 100%); }
 
-    .proj-cover {
-      height: 180px; position: relative;
+    .feat-items-wrap {
+      position: relative; width: 100%; height: 390px;
+      display: flex; align-items: center;
+    }
+    .feat-item {
+      position: absolute; left: 0; width: 100%; height: 65px;
+      display: flex; align-items: center;
+      transition: transform 0.55s cubic-bezier(0.34,1.3,0.64,1), opacity 0.4s ease;
+    }
+    .feat-item-btn {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.7rem 1.4rem; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: transparent; color: rgba(255,255,255,0.55);
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s ease; white-space: nowrap;
+    }
+    .feat-item-btn.is-active {
+      background: #fff; color: var(--accent); border-color: #fff;
+    }
+    .feat-item-icon { font-size: 1rem; }
+
+    /* Right: stacked cards */
+    .feat-right {
+      flex: 1; background: var(--bg2);
       display: flex; align-items: center; justify-content: center;
-      font-size: 3.5rem;
+      padding: 2rem; border-left: 1px solid var(--border);
+      position: relative;
     }
-    .proj-cover-overlay { display: none; }
+    .feat-cards-wrap {
+      position: relative; width: min(310px, 100%); aspect-ratio: 4/5;
+    }
+    .feat-card {
+      position: absolute; inset: 0;
+      border-radius: 1.75rem; overflow: hidden;
+      border: 6px solid var(--bg); background: var(--bg3);
+      transition: transform 0.5s cubic-bezier(0.34,1.2,0.64,1), opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .feat-card.is-active { transform: translateX(0) scale(1) rotate(0deg);   opacity: 1;   z-index: 20; pointer-events: auto; }
+    .feat-card.is-prev   { transform: translateX(-80px) scale(0.85) rotate(-3deg); opacity: 0.4; z-index: 10; }
+    .feat-card.is-next   { transform: translateX( 80px) scale(0.85) rotate( 3deg); opacity: 0.4; z-index: 10; }
+    .feat-card.is-hidden { transform: scale(0.7); opacity: 0; z-index: 0; }
 
-    .proj-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
-    .proj-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
-    .proj-title { font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.3; }
-    .proj-badge {
-      flex-shrink: 0; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.04em;
-      padding: 0.2rem 0.55rem; border-radius: 5px;
+    .feat-card-cover {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center; font-size: 5rem;
     }
+    .feat-card-overlay {
+      position: absolute; inset-x: 0; bottom: 0;
+      padding: 2.5rem 1.25rem 1.25rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      transition: opacity 0.3s ease;
+    }
+    .feat-card:not(.is-active) .feat-card-overlay { opacity: 0; }
+    .feat-card-badge {
+      display: inline-block; background: var(--bg); color: var(--text);
+      padding: 0.25rem 0.8rem; border-radius: 100px;
+      font-size: 0.62rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.15em; margin-bottom: 0.6rem; width: fit-content;
+      border: 1px solid var(--border);
+    }
+    .feat-card-title { color: #fff; font-size: 1.1rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.3rem; }
+    .feat-card-desc  { color: rgba(255,255,255,0.78); font-size: 0.78rem; line-height: 1.6; }
+
+    .feat-live {
+      position: absolute; top: 1.1rem; left: 1.1rem;
+      display: flex; align-items: center; gap: 0.45rem;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .feat-card.is-active .feat-live { opacity: 1; }
+    .feat-live-dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px #fff; }
+    .feat-live-text { color: rgba(255,255,255,0.75); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.28em; font-family: monospace; }
+
+    @media (max-width: 768px) {
+      .feat-carousel { flex-direction: column; }
+      .feat-left { width: 100%; min-height: 220px; padding: 1.5rem; }
+      .feat-items-wrap { height: 260px; }
+      .feat-right { min-height: 420px; padding: 1.5rem; }
+    }
+
+    /* keep badge colors for ptag used elsewhere */
     .badge-live { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; }
     .badge-dev  { background: #eff6ff; color: var(--accent); border: 1px solid #bfdbfe; }
-
-    .proj-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.8; margin-bottom: 1.1rem; flex: 1; }
-
-    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.2rem; }
     .ptag {
-      font-size: 0.7rem; font-weight: 500;
-      padding: 0.22rem 0.6rem; border-radius: 5px;
+      font-size: 0.7rem; font-weight: 500; padding: 0.22rem 0.6rem; border-radius: 5px;
       background: var(--bg3); border: 1px solid var(--border); color: var(--text2);
     }
-
-    .proj-links { display: flex; gap: 0.6rem; margin-top: auto; }
-    .plink {
-      flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.35rem;
-      padding: 0.55rem; border-radius: 7px; text-decoration: none;
-      font-size: 0.8rem; font-weight: 600; transition: all 0.2s;
-      border: 1px solid var(--border); color: var(--text2); background: var(--bg);
-    }
-    .plink:hover { border-color: var(--accent2); color: var(--accent); background: #eff6ff; }
-    .plink.primary { background: var(--accent); color: #fff; border-color: transparent; }
-    .plink.primary:hover { background: #1e3a8a; }
 
 
 
@@ -1450,132 +1503,87 @@
         <h2 class="section-title">Trabalhos recentes</h2>
         <p class="section-desc" style="margin-top:0.4rem">Seleção de projetos desenvolvidos para clientes e uso próprio.</p>
       </div>
-      <div class="proj-track-wrap">
-        <div class="proj-track">
+      <div class="feat-carousel">
 
-          <!-- set original -->
-          <div class="proj-slide"><div class="proj-card">
-            <div class="proj-cover" style="background:#f0f9ff"><span>📊</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">Sistema de Vendas GT Vertex</div><span class="proj-badge badge-live">Live</span></div>
-              <p class="proj-desc">Plataforma completa de gestão comercial desenvolvida para o time de vendas da GT Vertex. Conta com dashboard em tempo real, controle de pedidos e clientes, gestão de estoque com alertas automáticos e integração com WhatsApp Business para notificações instantâneas a cada atualização de status de pedido.</p>
-              <div class="proj-tags"><span class="ptag">Next.js</span><span class="ptag">PHP</span><span class="ptag">MySQL</span><span class="ptag">WhatsApp API</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
-          <div class="proj-slide"><div class="proj-card">
-            <div class="proj-cover" style="background:#faf5ff"><span>🤖</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">AI Integration Platform</div><span class="proj-badge badge-dev">Dev</span></div>
-              <p class="proj-desc">Plataforma que conecta a Claude API aos fluxos internos de empresas: recebe documentos via upload, extrai dados-chave com precisão, gera relatórios formatados automaticamente e responde dúvidas contextuais via chat — tudo sustentado por RAG com base de conhecimento proprietária e atualização incremental.</p>
-              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">FastAPI</span><span class="ptag">RAG</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
-          <div class="proj-slide"><div class="proj-card">
-            <div class="proj-cover" style="background:#f0fdf4"><span>💬</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">WhatsApp Business Bot</div><span class="proj-badge badge-live">Live</span></div>
-              <p class="proj-desc">Bot inteligente para WhatsApp Business que qualifica leads automaticamente, envia propostas personalizadas com base no perfil do contato e responde dúvidas de produto com contexto. Mantém memória de conversa persistente no MySQL e sincroniza oportunidades diretamente no CRM da empresa em tempo real.</p>
-              <div class="proj-tags"><span class="ptag">Node.js</span><span class="ptag">WhatsApp API</span><span class="ptag">Claude API</span><span class="ptag">MySQL</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
-          <div class="proj-slide"><div class="proj-card">
-            <div class="proj-cover" style="background:#fff7ed"><span>🔍</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">RAG Document Search</div><span class="proj-badge badge-dev">Dev</span></div>
-              <p class="proj-desc">Sistema de busca semântica que transforma documentos corporativos — PDFs, contratos, manuais e e-mails — em uma base vetorial consultável via linguagem natural. O Claude gera respostas precisas citando os trechos exatos de origem, eliminando buscas manuais e reduzindo tempo de pesquisa interna em até 80%.</p>
-              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">Pinecone</span><span class="ptag">Embeddings</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
-          <div class="proj-slide"><div class="proj-card">
-            <div class="proj-cover" style="background:#fefce8"><span>🏷️</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">Smart Classification Engine</div><span class="proj-badge badge-live">Live</span></div>
-              <p class="proj-desc">Pipeline de classificação automática que categoriza tickets de suporte e documentos em taxonomias pré-definidas usando few-shot prompting com exemplos curados. Inclui sistema de evals contínuas para monitorar acurácia ao longo do tempo e ajustar prompts automaticamente — suporta português, inglês e espanhol.</p>
-              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">Few-shot</span><span class="ptag">Evals</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
-          <div class="proj-slide"><div class="proj-card">
-            <div class="proj-cover" style="background:#f0f9ff"><span>🛎️</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">Customer Service Agent</div><span class="proj-badge badge-live">Live</span></div>
-              <p class="proj-desc">Agente de atendimento ao cliente equipado com ferramentas reais para consultar status de pedidos, verificar disponibilidade em estoque e abrir chamados de suporte — tudo via tool use. Detecta automaticamente quando o cliente precisa de atendimento humano e faz a transferência preservando o histórico completo da conversa.</p>
-              <div class="proj-tags"><span class="ptag">PHP</span><span class="ptag">Claude API</span><span class="ptag">Tool Use</span><span class="ptag">MySQL</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
-          <!-- set duplicado para loop infinito -->
-          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
-            <div class="proj-cover" style="background:#f0f9ff"><span>📊</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">Sistema de Vendas GT Vertex</div><span class="proj-badge badge-live">Live</span></div>
-              <p class="proj-desc">Plataforma completa de gestão comercial desenvolvida para o time de vendas da GT Vertex. Conta com dashboard em tempo real, controle de pedidos e clientes, gestão de estoque com alertas automáticos e integração com WhatsApp Business para notificações instantâneas a cada atualização de status de pedido.</p>
-              <div class="proj-tags"><span class="ptag">Next.js</span><span class="ptag">PHP</span><span class="ptag">MySQL</span><span class="ptag">WhatsApp API</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
-          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
-            <div class="proj-cover" style="background:#faf5ff"><span>🤖</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">AI Integration Platform</div><span class="proj-badge badge-dev">Dev</span></div>
-              <p class="proj-desc">Plataforma que conecta a Claude API aos fluxos internos de empresas: recebe documentos via upload, extrai dados-chave com precisão, gera relatórios formatados automaticamente e responde dúvidas contextuais via chat — tudo sustentado por RAG com base de conhecimento proprietária e atualização incremental.</p>
-              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">FastAPI</span><span class="ptag">RAG</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
-          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
-            <div class="proj-cover" style="background:#f0fdf4"><span>💬</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">WhatsApp Business Bot</div><span class="proj-badge badge-live">Live</span></div>
-              <p class="proj-desc">Bot inteligente que qualifica leads, envia propostas personalizadas e sincroniza oportunidades no CRM em tempo real.</p>
-              <div class="proj-tags"><span class="ptag">Node.js</span><span class="ptag">WhatsApp API</span><span class="ptag">Claude API</span><span class="ptag">MySQL</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
-          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
-            <div class="proj-cover" style="background:#fff7ed"><span>🔍</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">RAG Document Search</div><span class="proj-badge badge-dev">Dev</span></div>
-              <p class="proj-desc">Sistema de busca semântica que transforma documentos corporativos — PDFs, contratos, manuais e e-mails — em uma base vetorial consultável via linguagem natural. O Claude gera respostas precisas citando os trechos exatos de origem, eliminando buscas manuais e reduzindo tempo de pesquisa interna em até 80%.</p>
-              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">Pinecone</span><span class="ptag">Embeddings</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
-          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
-            <div class="proj-cover" style="background:#fefce8"><span>🏷️</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">Smart Classification Engine</div><span class="proj-badge badge-live">Live</span></div>
-              <p class="proj-desc">Pipeline de classificação automática que categoriza tickets de suporte e documentos em taxonomias pré-definidas usando few-shot prompting com exemplos curados. Inclui sistema de evals contínuas para monitorar acurácia ao longo do tempo e ajustar prompts automaticamente — suporta português, inglês e espanhol.</p>
-              <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Claude API</span><span class="ptag">Few-shot</span><span class="ptag">Evals</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
-          <div class="proj-slide" aria-hidden="true"><div class="proj-card">
-            <div class="proj-cover" style="background:#f0f9ff"><span>🛎️</span></div>
-            <div class="proj-body">
-              <div class="proj-head"><div class="proj-title">Customer Service Agent</div><span class="proj-badge badge-live">Live</span></div>
-              <p class="proj-desc">Agente de atendimento ao cliente equipado com ferramentas reais para consultar status de pedidos, verificar disponibilidade em estoque e abrir chamados de suporte — tudo via tool use. Detecta automaticamente quando o cliente precisa de atendimento humano e faz a transferência preservando o histórico completo da conversa.</p>
-              <div class="proj-tags"><span class="ptag">PHP</span><span class="ptag">Claude API</span><span class="ptag">Tool Use</span><span class="ptag">MySQL</span></div>
-              <div class="proj-links"><a href="#" class="plink primary">Ver projeto</a><a href="#" class="plink">GitHub</a></div>
-            </div>
-          </div></div>
-
+        <!-- Left: slot machine labels -->
+        <div class="feat-left">
+          <div class="feat-items-wrap" id="feat-items">
+            <div class="feat-item" data-i="0"><button class="feat-item-btn is-active" data-i="0"><span class="feat-item-icon">📊</span><span>GT Vertex Sales</span></button></div>
+            <div class="feat-item" data-i="1"><button class="feat-item-btn" data-i="1"><span class="feat-item-icon">🤖</span><span>AI Platform</span></button></div>
+            <div class="feat-item" data-i="2"><button class="feat-item-btn" data-i="2"><span class="feat-item-icon">💬</span><span>WhatsApp Bot</span></button></div>
+            <div class="feat-item" data-i="3"><button class="feat-item-btn" data-i="3"><span class="feat-item-icon">🔍</span><span>RAG Search</span></button></div>
+            <div class="feat-item" data-i="4"><button class="feat-item-btn" data-i="4"><span class="feat-item-icon">🏷️</span><span>Classification</span></button></div>
+            <div class="feat-item" data-i="5"><button class="feat-item-btn" data-i="5"><span class="feat-item-icon">🛎️</span><span>Service Agent</span></button></div>
+          </div>
         </div>
+
+        <!-- Right: stacked cards -->
+        <div class="feat-right">
+          <div class="feat-cards-wrap">
+
+            <div class="feat-card is-active" data-i="0">
+              <div class="feat-live"><div class="feat-live-dot"></div><span class="feat-live-text">Live Session</span></div>
+              <div class="feat-card-cover" style="background:#f0f9ff">📊</div>
+              <div class="feat-card-overlay">
+                <div class="feat-card-badge">1 · GT Vertex Sales</div>
+                <div class="feat-card-title">Sistema de Vendas GT Vertex</div>
+                <p class="feat-card-desc">Dashboard em tempo real, controle de pedidos e integração com WhatsApp Business.</p>
+              </div>
+            </div>
+
+            <div class="feat-card is-next" data-i="1">
+              <div class="feat-live"><div class="feat-live-dot"></div><span class="feat-live-text">Live Session</span></div>
+              <div class="feat-card-cover" style="background:#faf5ff">🤖</div>
+              <div class="feat-card-overlay">
+                <div class="feat-card-badge">2 · AI Platform</div>
+                <div class="feat-card-title">AI Integration Platform</div>
+                <p class="feat-card-desc">Conecta Claude API aos fluxos internos: RAG, relatórios e respostas contextuais.</p>
+              </div>
+            </div>
+
+            <div class="feat-card is-hidden" data-i="2">
+              <div class="feat-live"><div class="feat-live-dot"></div><span class="feat-live-text">Live Session</span></div>
+              <div class="feat-card-cover" style="background:#f0fdf4">💬</div>
+              <div class="feat-card-overlay">
+                <div class="feat-card-badge">3 · WhatsApp Bot</div>
+                <div class="feat-card-title">WhatsApp Business Bot</div>
+                <p class="feat-card-desc">Qualificação de leads, propostas personalizadas e sync com CRM em tempo real.</p>
+              </div>
+            </div>
+
+            <div class="feat-card is-hidden" data-i="3">
+              <div class="feat-live"><div class="feat-live-dot"></div><span class="feat-live-text">Live Session</span></div>
+              <div class="feat-card-cover" style="background:#fff7ed">🔍</div>
+              <div class="feat-card-overlay">
+                <div class="feat-card-badge">4 · RAG Search</div>
+                <div class="feat-card-title">RAG Document Search</div>
+                <p class="feat-card-desc">Busca semântica em documentos corporativos citando trechos exatos de origem.</p>
+              </div>
+            </div>
+
+            <div class="feat-card is-hidden" data-i="4">
+              <div class="feat-live"><div class="feat-live-dot"></div><span class="feat-live-text">Live Session</span></div>
+              <div class="feat-card-cover" style="background:#fefce8">🏷️</div>
+              <div class="feat-card-overlay">
+                <div class="feat-card-badge">5 · Classification</div>
+                <div class="feat-card-title">Smart Classification Engine</div>
+                <p class="feat-card-desc">Pipeline automático com few-shot prompting, evals contínuas e suporte multilíngue.</p>
+              </div>
+            </div>
+
+            <div class="feat-card is-hidden" data-i="5">
+              <div class="feat-live"><div class="feat-live-dot"></div><span class="feat-live-text">Live Session</span></div>
+              <div class="feat-card-cover" style="background:#f0f9ff">🛎️</div>
+              <div class="feat-card-overlay">
+                <div class="feat-card-badge">6 · Service Agent</div>
+                <div class="feat-card-title">Customer Service Agent</div>
+                <p class="feat-card-desc">Agente com tool use real para pedidos, estoque e transferência humana com histórico.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -2080,6 +2088,67 @@
       loop();
     })();
 
+
+    // ── Projects Feature Carousel ─────────────────────────────────
+    (function () {
+      const N = 6, ITEM_H = 65;
+      let step = 0, timer = null, paused = false;
+
+      const items = [...document.querySelectorAll('.feat-items-wrap .feat-item')];
+      const btns  = [...document.querySelectorAll('.feat-item-btn')];
+      const cards = [...document.querySelectorAll('.feat-card')];
+      if (!items.length) return;
+
+      function wrap(v) { return ((v % N) + N) % N; }
+
+      function update() {
+        const cur  = wrap(step);
+        const prev = wrap(step - 1);
+        const next = wrap(step + 1);
+
+        items.forEach((item, i) => {
+          let d = i - cur;
+          if (d >  N / 2) d -= N;
+          if (d < -N / 2) d += N;
+          item.style.transform = `translateY(${d * ITEM_H}px)`;
+          item.style.opacity   = Math.max(0, 1 - Math.abs(d) * 0.25);
+        });
+
+        btns.forEach((btn, i) => btn.classList.toggle('is-active', i === cur));
+
+        cards.forEach((card, i) => {
+          card.classList.remove('is-active','is-prev','is-next','is-hidden');
+          if      (i === cur)  card.classList.add('is-active');
+          else if (i === prev) card.classList.add('is-prev');
+          else if (i === next) card.classList.add('is-next');
+          else                 card.classList.add('is-hidden');
+        });
+      }
+
+      function startTimer() {
+        clearInterval(timer);
+        timer = setInterval(() => { if (!paused) { step++; update(); } }, 3000);
+      }
+
+      btns.forEach((btn, i) => {
+        btn.addEventListener('click', () => {
+          const diff = (i - wrap(step) + N) % N;
+          if (diff > 0) step += diff;
+          update();
+          clearInterval(timer);
+          startTimer();
+        });
+      });
+
+      const carousel = document.querySelector('.feat-carousel');
+      if (carousel) {
+        carousel.addEventListener('mouseenter', () => { paused = true; });
+        carousel.addEventListener('mouseleave', () => { paused = false; });
+      }
+
+      update();
+      startTimer();
+    })();
 
     // ── Certificates Layout Grid ──────────────────────────────────
     (function () {
